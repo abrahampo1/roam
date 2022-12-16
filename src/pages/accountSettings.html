@@ -1,0 +1,29 @@
+<div class="accountSettings">
+  <div class="group flex">
+    <h4>Account Name</h4>
+    <h4 id="username"></h4>
+  </div>
+  <div class="group flex">
+    <h4>Alias</h4>
+    <input
+      type="text"
+      id="accountAlias"
+      placeholder="Custom Alias..."
+      onchange="setCustomAlias(this.value)"
+    />
+  </div>
+  <button>Sell Account</button>
+</div>
+
+
+<script>
+  $(".accountSettings #accountAlias").val(selectedAccount.Alias);
+  $(".accountSettings #username").text(selectedAccount.UserName);
+
+  function setCustomAlias(alias) {
+    selectedAccount.Alias = alias;
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    saved_users[selectedAccount.UserID] = selectedAccount;
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+  }
+</script>

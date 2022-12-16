@@ -1,0 +1,105 @@
+<div style="width: 60%; height: 100%" class="userList">
+  <div class="flex" style="margin-bottom: 10px">
+    <div style="position: relative">
+      <button onclick="AddRobloxAccount()">Add Account</button>
+      <div class="tutorial" style="display: none">
+        <div class="triangle"></div>
+        <div class="addAccount">
+          <p><strong>Add Account</strong></p>
+          <p>Add a roblox account by just clicking this button</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input
+    type="text"
+    style="margin: 0; margin-bottom: 10px"
+    placeholder="Search"
+  />
+  <div id="userList"></div>
+</div>
+
+<div style="width: 40%; height: 100%" class="game">
+  <div class="block" id="block">
+    <p>Select an account first</p>
+  </div>
+  <div class="block" id="join" style="display: none">
+    <iconify-icon
+      style="font-size: 30px"
+      icon="eos-icons:three-dots-loading"
+    ></iconify-icon>
+  </div>
+  <div style="width: 100%">
+    <div class="gameInfo">
+      <img
+        id="gameThumbnail"
+        src="https://tr.rbxcdn.com/5f975c8ae72a7cfe193eea7799b2a5cb/150/150/Image/Png"
+        alt=""
+      />
+      <div>
+        <p><strong id="gameTitle">Rogue Lineage</strong></p>
+        <p><span id="gamePlayers">XXX</span> Players</p>
+      </div>
+    </div>
+    <input
+      type="text"
+      id="placeId"
+      placeholder="Place ID"
+      onchange="LoadPlaceDetails(this.value)"
+      value="3016661674"
+    />
+  </div>
+
+  <div style="width: 100%">
+    <input type="text" id="followPlayer" placeholder="Follow Player" />
+    <button class="play" onclick="LaunchAccount()">
+      <iconify-icon inline icon="ic:round-play-arrow"></iconify-icon>
+    </button>
+  </div>
+</div>
+
+<script>
+  function LoadAccounts() {
+    if (!localStorage.getItem("accounts")) {
+      $(".tutorial").fadeIn();
+    } else {
+      $(".tutorial").hide();
+    }
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    $("#userList").html("");
+    Object.entries(saved_users).forEach(([userid, data]) => {
+      let sel = "";
+
+      if (selectedAccount && selectedAccount.UserID == userid) {
+        sel = "selected";
+        $(".game #block").hide();
+        LoadPlaceDetails($("#placeId").val());
+      }
+
+      $("#userList").append(`
+        
+        <div class="user ${sel}" onclick="selectAccount('${userid}', this)">
+      <div class="flex">
+        <p class="primary">${data.UserName}</p>
+        <p class="secondary">${data.Alias || ''}</p>
+      </div>
+      <div class="actions">
+        <iconify-icon icon="material-symbols:settings" onclick="load_page('accountSettings')"></iconify-icon>
+      </div>
+    </div>
+        
+        `);
+    });
+  }
+
+  function selectAccount(uid, el) {
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    selectedAccount = saved_users[uid];
+    $(".game #block").fadeOut();
+    $("#userList .selected").removeClass("selected");
+    $(el).addClass("selected");
+    LoadPlaceDetails($("#placeId").val());
+  }
+
+  LoadAccounts();
+</script>

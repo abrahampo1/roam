@@ -1,0 +1,20 @@
+{
+  "name": "roam",
+  "version": "1.0.0",
+  "description": "Roblox Account Manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "electron ."
+  },
+  "author": "Abrahampo1",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^22.0.0"
+  },
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "jquery": "^3.6.2",
+    "noblox.js": "^4.13.1",
+    "robloxlauncherapi": "github:abrahampo1/RobloxClientApi"
+  }
+}

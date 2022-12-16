@@ -1,0 +1,19 @@
+<div class="modal">
+  <div style="text-align: center">
+    <iconify-icon
+      icon="material-symbols:lock-person"
+      style="text-align: center; font-size: 70px"
+    ></iconify-icon>
+    <h1>Enter your password</h1>
+    <input type="password" id="cryptopass" placeholder="Password..." />
+    <button class="login" onclick="loginCrypto($('#cryptopass'))">Next</button>
+    <button class="alert" onclick="giveUp()">Give up and delete all</button>
+  </div>
+</div>
+
+<script>
+  function giveUp() {
+    localStorage.clear();
+    location.reload();
+  }
+</script>

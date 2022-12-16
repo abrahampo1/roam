@@ -1,0 +1,399 @@
+:root {
+    --primary: rgb(41, 41, 41);
+    --secondary: rgba(146, 146, 146, 0.253);
+    --background: rgba(0, 0, 0, 0.521);
+    --background--secondary: rgb(49, 49, 49);
+    --focus-color: rgb(96, 96, 255);
+    --text-color: white
+}
+
+
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: var(--text-color);
+    user-select: none;
+}
+
+html, body {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background);
+}
+
+
+nav {
+    position: fixed;
+    z-index: 1000;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    background-color: var(--primary);
+}
+
+nav iconify-icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.dragzone {
+    width: 100%;
+    height: 100%;
+    -webkit-app-region: drag;
+}
+
+#app {
+    position: absolute;
+    top: 40px;
+    bottom: 0px;
+    left: 100px;
+    right: 0px;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+}
+
+.sidebar {
+    position: absolute;
+    left: 0px;
+    width: 100px;
+    top: 40px;
+    bottom: 0px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, var(--background--secondary) 0px 1px 3px 1px;
+    overflow: hidden;
+    background-color: var(--background--secondary);
+    display: flex;
+    align-content: space-around;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.sidebar .icon {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-size: 25px;
+}
+
+.sidebar .icon iconify-icon:hover {
+    transform: scale(1.1);
+    background-color: var(--secondary);
+}
+
+.sidebar .icon iconify-icon {
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 15px;
+    transition: border-radius 0.2s, transform 0.2s, background-color 0.2s;
+    background-color: var(--primary);
+}
+
+.sidebar .icon.selected iconify-icon {
+    background-color: var(--secondary);
+    transform: scale(1.1);
+    border-radius: 10px;
+}
+
+.game {
+    background-color: var(--background--secondary);
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    align-content: space-between;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.game .block {
+    background-color: rgba(128, 128, 128, 0.726);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.gameInfo, .marketInfo {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.marketInfo {
+    justify-content: center;
+}
+
+.gameInfo img {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.marketInfo img {
+    height: 100%;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+
+button {
+    border: none;
+    background: rgb(22, 22, 22);
+    background: radial-gradient(circle, var(--primary) 0%, var(--primary) 100%);
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button.login {
+    background: rgb(255, 255, 255);
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 100%);
+    color: black;
+    margin-top: 10px;
+    width: 100%;
+}
+
+button.alert {
+    background: rgb(194, 57, 57);
+    background: linear-gradient(0deg, rgba(194, 57, 57, 0.6306897759103641) 0%, rgba(255, 0, 0, 0.5382528011204482) 100%);
+    margin-top: 10px;
+    width: 100%;
+}
+
+button.play {
+    margin-top: 10px;
+    font-size: 20px;
+    width: 100%;
+    height: 50px;
+    background: rgb(17, 125, 0);
+    background: linear-gradient(191deg, rgba(17, 125, 0, 1) 0%, rgba(29, 168, 0, 1) 100%);
+}
+
+button:focus {
+    outline: 3px solid var(--focus-color);
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: none;
+    background-color: var(--secondary);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+input:focus {
+    outline: 3px solid var(--focus-color);
+
+}
+
+input.search {
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+.userList {
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+
+.userList .user {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: var(--secondary);
+
+}
+
+.userList .actions {
+    display: flex;
+    align-items: center;
+}
+
+.userList .user p {
+    margin: 0px;
+}
+
+.userList .user.selected {
+    background-color: var(--primary);
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.user .secondary {
+    color: rgb(165, 165, 165);
+    margin-left: 5px !important;
+}
+
+.modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.blinker {
+    animation-name: blinker;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(1, 0, 0, 1);
+    animation-duration: 1s;
+    display: inline-block;
+    width: 2px;
+    height: 30px;
+    margin-left: 3px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(white, .3);
+    background: white;
+}
+
+@keyframes blinker {
+    from {
+        opacity: 1.0;
+    }
+
+    to {
+        opacity: 0.0;
+    }
+}
+
+p.alert {
+    background: rgb(194, 57, 57);
+    background: linear-gradient(0deg, rgba(194, 57, 57, 0.6306897759103641) 0%, rgba(255, 0, 0, 0.5382528011204482) 100%);
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.accountSettings {
+    width: 60%;
+}
+
+.accountSettings .group h4 {
+    margin: 0px;
+}
+
+.accountSettings .group {
+    background-color: var(--primary);
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.accountSettings .group input {
+    width: 250px;
+    margin-top: 0px;
+}
+
+.infoPanel {
+    width: 40%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.infoPanel .content {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: var(--secondary);
+    background: rgb(255, 116, 116);
+    background: linear-gradient(191deg, rgba(255, 116, 116, 1) 0%, rgba(121, 0, 0, 1) 100%);
+}
+
+.tutorial {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+}
+
+.tutorial .addAccount {
+    border-radius: 10px;
+    outline: 3px solid var(--focus-color);
+    background-color: var(--primary);
+    padding: 10px;
+    box-sizing: border-box;
+    width: 150px;
+}
+
+.tutorial .triangle {
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -20px;
+    border-style: solid;
+    border-width: 0 20px 20px 20px;
+    border-color: transparent transparent var(--focus-color) transparent;
+}
+
+.mItem {
+    width: 150px;
+    background-color: var(--secondary);
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.mItem img {
+    width: 100px;
+    height: 100px;
+}
+
+.mItem p {
+    margin: 0px;
+}
+
+
+.badges {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.badges span {
+    background-color: var(--primary);
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 10px;
+}

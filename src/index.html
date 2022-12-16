@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="style/main.css" />
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoAM</title>
+  </head>
+  <body>
+    <nav>
+      <div>RoAM</div>
+      <div class="dragzone"></div>
+      <iconify-icon
+        icon="material-symbols:close-rounded"
+        onclick="close_app()"
+      ></iconify-icon>
+    </nav>
+    <div class="sidebar">
+      <div class="icon selected" data-page="home">
+        <iconify-icon icon="material-symbols:home-rounded"></iconify-icon>
+      </div>
+      <div class="icon" data-page="friends">
+        <iconify-icon icon="mdi:accounts-group-outline"></iconify-icon>
+      </div>
+      <div class="icon" data-page="account">
+        <iconify-icon icon="mdi:account-cog"></iconify-icon>
+      </div>
+      <div class="icon" data-page="market">
+        <iconify-icon icon="mdi:marketplace-outline"></iconify-icon>
+      </div>
+      <div class="icon" data-page="settings">
+        <iconify-icon icon="material-symbols:settings"></iconify-icon>
+      </div>
+    </div>
+    <div id="app"></div>
+  </body>
+
+  <div id="modalHolder"></div>
+</html>
+
+<script src="script/main.js"></script>
+<script src="script/crypto.js"></script>
+<script src="script/roblox.js"></script>
+<script>
+  load_page("home");
+</script>
