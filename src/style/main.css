@@ -521,6 +521,7 @@ a {
     overflow-y: auto;
     position: relative;
     box-sizing: border-box;
+    transition: box-shadow 0.5s;
 }
 
 .nexus .nexusBlock {
@@ -560,13 +561,14 @@ button.dark {
 }
 
 .tinymodal {
-    width: 250px;
-    height: 300px;
+    width: 350px;
+    height: 400px;
     background-color: var(--primary);
     border-radius: 10px;
     position: relative;
     padding: 10px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .tinymodal .topbar {
@@ -693,4 +695,8 @@ button.dark {
     left: 0;
     width: 100%;
     box-sizing: border-box;
+}
+
+.nexus.block {
+    box-shadow: rgba(255, 0, 0, 0.35) 3px 3px 6px 0px inset, rgba(255, 0, 0, 0.35) -3px -3px 6px 1px inset;
 }

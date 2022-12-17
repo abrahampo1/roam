@@ -7,13 +7,14 @@
         onclick="$('#modalHolder').fadeOut()"
       ></iconify-icon>
     </div>
+    <input type="text" style="margin-bottom: 10px" placeholder="Search" />
     <div class="nexusAccounts"></div>
   </div>
 </div>
 
 <script>
   $(".nexusAccounts").html("");
-  
+
   NexusAccounts.forEach((element) => {
     let acc = $('<div class="nexusAccount">' + element.name + "</div>");
     let find = NexusSelected.find((elem) => elem.id == element.id);
