@@ -1,0 +1,127 @@
+<div class="modal">
+  <div class="ramstep1">
+    <h1>Import from RAM</h1>
+    <h3>Import all your accounts from Roblox Account Manager by ic3w0lf</h3>
+    <div class="flex ramactions" style="justify-content: space-between">
+      <div></div>
+      <button
+        class="login"
+        style="width: 150px"
+        onclick="$('.ramstep1').hide(); $('.ramstep2').show()"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  <div class="ramstep2" style="display: none">
+    <h1>Step 1</h1>
+    <p>
+      You need to enable the webserver to get all data on Roblox Account Manager
+    </p>
+    <p>Go To Settings -> Developer -> Enable All</p>
+    <p>
+      Remember to put a password, on "webserver password", when you are ready,
+      click next
+    </p>
+    <div class="flex ramactions" style="justify-content: space-between">
+      <button
+        class="login"
+        style="width: 150px"
+        onclick="$('.ramstep2').hide(); $('.ramstep1').show()"
+      >
+        Back
+      </button>
+      <button
+        class="login"
+        style="width: 150px"
+        onclick="$('.ramstep2').hide(); $('.ramstep3').show()"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+  <div class="ramstep3" style="display: none">
+    <h1>Step 2</h1>
+    <p>We are gonna test the connection and begin the import.</p>
+    <input type="text" placeholder="Webserver Password" id="RAMWSPASSWORD" />
+    <br />
+    <br />
+    <input
+      type="text"
+      placeholder="Webserver Port"
+      value="7963"
+      id="RAMWSPORT"
+    />
+    <br />
+    <br />
+    <div class="flex ramactions" style="justify-content: space-between">
+      <button
+        class="login"
+        style="width: 150px"
+        onclick="$('.ramstep3').hide(); $('.ramstep2').show()"
+      >
+        Back
+      </button>
+      <button class="login" style="width: 150px" onclick="importAccounts()">
+        Import Accounts
+      </button>
+    </div>
+  </div>
+  <div class="ramstep4" style="display: none; text-align: center;">
+    <h1>Importing Accounts...</h1>
+    <h3 id="RAMCurrentStatus"></h3>
+  </div>
+  <div class="ramstep5" style="display: none; text-align: center">
+    <h1>Nice.</h1>
+    <h3>All Imported</h3>
+    <p class="alert">Disable all on Roblox Account Manager</p>
+
+    <div class="flex ramactions" style="justify-content: space-between">
+      <div></div>
+      <button
+      style="width: 150px;"
+        class="login"
+        onclick="$('#modalHolder').fadeOut('fast', ()=>{$('#modalHolder').html('')})"
+      >
+        Finish
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function importAccounts() {
+    if (!$("#RAMWSPASSWORD").val()) {
+      return;
+    }
+    if (!$("#RAMWSPORT").val()) {
+      return;
+    }
+
+    $(".ramstep3").hide();
+    $(".ramstep4").show();
+    $.ajax({
+      type: "GET",
+      url:
+        "http://localhost:" +
+        $("#RAMWSPORT").val() +
+        "/GetAccountsJson?Password=" +
+        $("#RAMWSPASSWORD").val() +
+        "&IncludeCookies=true",
+      success: async function (response) {
+        let accs = JSON.parse(response);
+        for (key in accs) {
+          $("#RAMCurrentStatus").text("Importing " + accs[key].Username);
+          await addRobloxAccountWithCookie(accs[key].Cookie, accs[key].Alias);
+        }
+        $(".ramstep4").hide();
+        $(".ramstep5").show();
+      },
+      error: function () {
+        $(".ramstep4").hide();
+        $(".ramstep3").show();
+      },
+    });
+  }
+</script>

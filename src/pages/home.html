@@ -6,15 +6,21 @@
         <div class="triangle"></div>
         <div class="addAccount">
           <p><strong>Add Account</strong></p>
-          <p>Add a roblox account by just clicking this button</p>
+          <p>Add or Import an account by clicking one of this buttons</p>
         </div>
       </div>
+      <button
+        onclick="$('#modalHolder').load('modals/RAM/import.html'); $('#modalHolder').fadeIn('fast')"
+      >
+        Import Accounts
+      </button>
     </div>
   </div>
   <input
     type="text"
     style="margin: 0; margin-bottom: 10px"
     placeholder="Search"
+    oninput="LoadAccounts(this.value)"
   />
   <div id="userList"></div>
 </div>
@@ -59,31 +65,48 @@
 </div>
 
 <script>
-  function LoadAccounts() {
+  function LoadAccounts(query) {
     if (!localStorage.getItem("accounts")) {
       $(".tutorial").fadeIn();
     } else {
       $(".tutorial").hide();
     }
     let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-    $("#userList").html("");
-    Object.entries(saved_users).forEach(([userid, data]) => {
-      let sel = "";
 
-      if (selectedAccount && selectedAccount.UserID == userid) {
+    let accs = Object.values(saved_users);
+    if (query) {
+      accs = accs.filter(
+        (a) =>
+          a.UserName.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+          a.Alias.toLowerCase().indexOf(query.toLowerCase()) > -1
+      );
+    }
+
+    $("#userList").html("");
+    accs.forEach((data) => {
+      let sel = "";
+      if (selectedAccount && selectedAccount.UserID == data.UserID) {
         sel = "selected";
         $(".game #block").hide();
         LoadPlaceDetails($("#placeId").val());
       }
 
+      if (data.showUserName == false) {
+        data.UserName = "";
+      }
+
       $("#userList").append(`
         
-        <div class="user ${sel}" onclick="selectAccount('${userid}', this)">
+        <div class="user ${sel}" id="userCard-${
+        data.UserID
+      }" onclick="selectAccount('${data.UserID}', this)">
       <div class="flex">
         <p class="primary">${data.UserName}</p>
-        <p class="secondary">${data.Alias || ''}</p>
+        <p class="secondary">${data.Alias || ""}</p>
       </div>
       <div class="actions">
+        <iconify-icon icon="fluent:connected-16-filled" style="margin-right: 5px; display: none" class="nexus"></iconify-icon>
+        <iconify-icon icon="material-symbols:cloud-done-outline-rounded" style="margin-right: 5px; display: none" class="cloud"></iconify-icon>
         <iconify-icon icon="material-symbols:settings" onclick="load_page('accountSettings')"></iconify-icon>
       </div>
     </div>
@@ -91,7 +114,9 @@
         `);
     });
   }
-
+  if (localStorage.getItem("useFirebase") == "true" && auth.currentUser) {
+    getCloudAccounts();
+  }
   function selectAccount(uid, el) {
     let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
     selectedAccount = saved_users[uid];

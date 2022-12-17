@@ -1,24 +1,30 @@
 var { ipcRenderer } = require("electron");
 const noblox = require("noblox.js");
-var selectedPlaceID;
+var selectedPlaceID = 3016661674;
 var selectedAccount;
 
 function AddRobloxAccount() {
   return new Promise((resolve, reject) => {
     ipcRenderer.send("AddRobloxAccount");
     ipcRenderer.on("RobloxAccountCookie", async (sender, data) => {
-      let currentUser = await noblox.setCookie(data);
-
-      currentUser.cookie = Crypt(data);
-
-      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-
-      saved_users[currentUser.UserID] = currentUser;
-
-      localStorage.setItem("accounts", JSON.stringify(saved_users));
-      LoadAccounts();
+      addRobloxAccountWithCookie(data);
     });
   });
+}
+
+async function addRobloxAccountWithCookie(cookie, alias = "") {
+  let currentUser = await noblox.setCookie(cookie);
+
+  currentUser.cookie = cryptoClient.crypt(cookie);
+
+  let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+
+  currentUser.showUserName = true;
+  currentUser.Alias = alias;
+  saved_users[currentUser.UserID] = currentUser;
+
+  localStorage.setItem("accounts", JSON.stringify(saved_users));
+  LoadAccounts();
 }
 
 async function LoadPlaceDetails(placeID) {
@@ -51,7 +57,7 @@ async function LoadPlaceDetails(placeID) {
 
 function LaunchAccount() {
   ipcRenderer.send("LaunchGame", {
-    cookie: Decrypt(selectedAccount.cookie),
+    cookie: cryptoClient.decrypt(selectedAccount.cookie),
     placeId: selectedPlaceID,
     followPlayer: $("#followPlayer").val(),
   });
@@ -66,3 +72,14 @@ ipcRenderer.on("LauncherLink", (sender, link) => {
   a.click();
   $(".game #join").fadeOut("fast");
 });
+
+async function robloxBlock(account, blockUserID) {
+  let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
+  console.log(`Logged in as ${cuser.UserName} [${cuser.UserID}]`);
+  let xcsrf = await noblox.getGeneralToken();
+  ipcRenderer.send("BlockRobloxUser", {
+    cookie: cryptoClient.decrypt(account.cookie),
+    token: xcsrf,
+    uid: blockUserID,
+  });
+}

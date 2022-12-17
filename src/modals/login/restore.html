@@ -1,0 +1,35 @@
+<div class="modal">
+  <div style="text-align: center">
+    <h1>RoAM ID</h1>
+    <h3>Reset your password</h3>
+    <input
+      type="email"
+      id="restoreemail"
+      placeholder="Email..."
+      style="width: 250px"
+    />
+    <br />
+    <button
+      class="login"
+      style="width: 250px"
+      onclick="restorePassword($('#restoreemail').val(), this)"
+    >
+      Send Restore Email
+    </button>
+    <br />
+    <br />
+    <a
+      href="#"
+      style="margin-top: 10px"
+      onclick="$('#modalHolder').load('modals/login/auth.html')"
+      >Back to login</a
+    >
+  </div>
+</div>
+
+<script>
+  function giveUp() {
+    localStorage.clear();
+    location.reload();
+  }
+</script>

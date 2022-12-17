@@ -1,0 +1,50 @@
+<div class="modal">
+  <div style="text-align: center">
+    <h1>RoAM ID</h1>
+    <p>Create your (epic) account on RoAM</p>
+    <input
+      type="email"
+      id="createuseremail"
+      placeholder="Email..."
+      style="width: 250px"
+    />
+    <br />
+    <input
+      type="password"
+      id="createuserpass"
+      placeholder="Password..."
+      style="width: 250px"
+    />
+    <br />
+    <input
+      type="password"
+      id="createuserpassrepeat"
+      placeholder="Repeat Password..."
+      style="width: 250px"
+    />
+    <br />
+    <button
+      class="login"
+      style="width: 250px"
+      onclick="firebaseCreate($('#createuseremail').val(), $('#createuserpass').val(), $('#createuserpassrepeat').val())"
+    >
+      Create
+    </button>
+    <br />
+    <br />
+
+    <a
+      href="#"
+      style="margin-top: 10px"
+      onclick="$('#modalHolder').load('modals/login/auth.html')"
+      >Back to login</a
+    >
+  </div>
+</div>
+
+<script>
+  function giveUp() {
+    localStorage.clear();
+    location.reload();
+  }
+</script>
