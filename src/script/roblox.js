@@ -106,7 +106,13 @@ async function robloxBlock(account, blockUserID) {
 async function checkRobloxVerified() {
   let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
   Object.entries(saved_users).forEach(([key, r]) => {
-    console.log(r);
+    if(!r.cookie){
+        return
+    }
+
+    if(!cryptoClient){
+        return
+    }
     ipcRenderer.send("RobloxRequest", {
       url: "https://accountsettings.roblox.com/v1/email",
       cookie: cryptoClient.decrypt(r.cookie),

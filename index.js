@@ -24,7 +24,7 @@ function createWindow() {
       contextIsolation: false,
     },
   });
-
+  mainWindow.setIcon(__dirname + "/res/logo.ico");
   mainWindow.loadFile("src/index.html");
 
   ipcMain.on("close", () => {
@@ -46,6 +46,7 @@ ipcMain.on("AddRobloxAccount", () => {
   });
 
   accountWindow.loadURL("https://www.roblox.com/login");
+  accountWindow.setIcon(__dirname + "/res/logo.ico");
 
   accountWindow.webContents.session
     .clearStorageData({ storages: ["cookies"] })

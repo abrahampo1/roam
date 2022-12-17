@@ -23,7 +23,12 @@
       />
     </div>
   </div>
-  <button onclick="load_page('home')">Back</button>
+<div class="flex" style="justify-content:space-between;">
+    <button onclick="load_page('home')">Back</button>
+    <button onclick="deleteAccount()">Delete Account</button>
+    
+
+</div>
 
   </div>
 
@@ -47,6 +52,13 @@
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
       saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
+    }
+
+    function deleteAccount(){
+        let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+        delete saved_users[selectedAccount[0].UserID];
+        localStorage.setItem("accounts", JSON.stringify(saved_users));
+        $('.sidebar .icon[data-page="home"]').click();
     }
   </script>
 </div>
