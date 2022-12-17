@@ -110,3 +110,7 @@ isRunning("multiroblox.exe", (status) => {
     );
   }
 });
+
+ipcRenderer.on("updateIncoming", () => {
+  $("#update").fadeIn("fast");
+});
