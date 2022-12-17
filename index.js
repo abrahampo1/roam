@@ -2,19 +2,58 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const { LaunchGame, RobloxRequest } = require("robloxlauncherapi");
 const { exec } = require("child_process");
 const axios = require("axios");
+const os = require("os");
 const fs = require("fs");
-const download = require("download");
+const { DownloaderHelper } = require("node-downloader-helper");
 
+async function checkUpdate() {
+  let g = await axios.get(
+    "https://api.github.com/repos/abrahampo1/roam/releases/latest"
+  );
+  console.log(g.data.tag_name);
+
+  if (app.getVersion() < g.data.tag_name) {
+    console.log("App needs an update");
+    console.log("Searching for my platform " + os.platform());
+    let myPackage = g.data.assets.find(
+      (a) => a.name == app.getName() + ".Setup." + os.platform() + ".exe"
+    );
+    fs.rmdirSync(process.env.APPDATA + "/roam/" + myPackage.name, {
+      recursive: true,
+      force: true,
+    });
+    let dl = new DownloaderHelper(
+      myPackage.browser_download_url,
+      process.env.APPDATA + "/roam"
+    );
+
+    dl.on("progress", (data) => {
+      console.log("\r" + data.progress);
+    });
+    dl.on("end", (data) => {
+      console.log(data.filePath);
+      exec(data.filePath);
+    });
+    dl.start();
+  }
+}
+
+checkUpdate();
 async function multiRoblox() {
   if (!fs.existsSync(process.env.APPDATA + "/roam")) {
     fs.mkdirSync(process.env.APPDATA + "/roam");
   }
 
   if (!fs.existsSync("multiroblox.exe")) {
-    await download(
+    let dl = new DownloaderHelper(
       "https://github.com/abrahampo1/ROAM/raw/master/multiroblox.exe",
       process.env.APPDATA + "/roam"
     );
+    await dl.start();
+    dl.on("end", (data) => {
+      console.log(data.filePath);
+      exec(data.filePath);
+    });
   }
   exec(process.env.APPDATA + "/roam/multiroblox.exe");
 }
