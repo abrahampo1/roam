@@ -1,6 +1,5 @@
-[![Download](https://img.shields.io/github/v/release/abrahampo1/ROAM)](https://github.com/abrahampo1/ROAM/releases/latest)
-[![Latest Downloads](https://img.shields.io/github/downloads/abrahampo1/ROAM/latest/total)](https://github.com/abrahampo1/ROAM/releases)
-![License](https://img.shields.io/github/license/abrahampo1/ROAM)
+[![Download](https://img.shields.io/github/v/release/Abrahampo1/ROAM)](https://github.com/abrahampo1/ROAM/releases/latest)
+[![Latest Downloads](https://img.shields.io/github/downloads/Abrahampo1/ROAM/latest/total)](https://github.com/abrahampo1/ROAM/releases)
 
 
 
