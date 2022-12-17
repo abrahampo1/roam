@@ -1,0 +1,36 @@
+<div class="modal transparent">
+  <div class="tinymodal">
+    <div class="topbar">
+      <div style="font-size: 12px">Select Nexus Accounts</div>
+      <iconify-icon
+        icon="material-symbols:close-rounded"
+        onclick="$('#modalHolder').fadeOut()"
+      ></iconify-icon>
+    </div>
+    <div class="nexusAccounts"></div>
+  </div>
+</div>
+
+<script>
+  $(".nexusAccounts").html("");
+  
+  NexusAccounts.forEach((element) => {
+    let acc = $('<div class="nexusAccount">' + element.name + "</div>");
+    let find = NexusSelected.find((elem) => elem.id == element.id);
+    if (find) {
+      $(acc).addClass("selected");
+    }
+    $(acc).on("click", () => {
+      let find = NexusSelected.findIndex((elem) => elem.id == element.id);
+      if (find < 0) {
+        NexusSelected.push(element);
+        $(acc).addClass("selected");
+      } else {
+        NexusSelected.splice(find, 1);
+        $(acc).removeClass("selected");
+      }
+    });
+
+    $(".nexusAccounts").append(acc);
+  });
+</script>

@@ -1,0 +1,100 @@
+<div class="editor">
+  <div id="editor" style="width: 100%; height: 100%">print("Hello world!")</div>
+</div>
+
+<div class="nexusInterface">
+  <div class="nexus">
+    <div class="logs"></div>
+    <div class="nexusBlock">Nexus is disconnected</div>
+  </div>
+  <div class="actions">
+    <div class="flex" style="width: 100%">
+      <button class="dark" onclick="executeNexus(editor.getValue())">
+        Execute
+      </button>
+      <button
+        class="dark"
+        style="margin-left: 5px"
+        onclick="$('.nexus .logs').html('')"
+      >
+        Clear
+      </button>
+    </div>
+    <div style="width: 100%">
+        <div class="flex" style="align-items: center; justify-content: space-between">
+            <div style="font-size: 15px;">AutoExecute</div>
+            <div class="checkbox-wrapper-2">
+              <input
+                type="checkbox"
+                id="autoExecuteNexus"
+                onchange="localStorage.setItem('autoExecuteNexus', this.checked)"
+                class="sc-gJwTLC ikxBAC"
+              />
+            </div>
+        </div>
+        <button
+          class="dark"
+          onclick="$('#modalHolder').load('modals/nexus/selectAccount.html'); $('#modalHolder').fadeIn()"
+        >
+          Select Accounts
+        </button>
+        <div class="actions ">
+            <div class="flex" style="width: 100%;">
+                <button class="dark" onclick="$('#loadfile').click()">
+                    Load from file
+                  </button>
+          
+                  <input
+                    type="file"
+                    name=""
+                    id="loadfile"
+                    accept=".txt, .lua"
+                    style="display: none"
+                  />
+                  <button  style="margin-left: 5px" class="dark" onclick="saveStaticDataToFile()">
+                    Save to file
+                  </button>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    ace.require("ace/ext/language_tools");
+    var editor = ace.edit("editor");
+    editor.setOptions({
+      enableBasicAutocompletion: true,
+      enableSnippets: true,
+      enableLiveAutocompletion: true,
+    });
+    editor.setTheme("ace/theme/merbivore");
+    editor.session.setMode("ace/mode/lua");
+
+    function saveStaticDataToFile() {
+      var blob = new Blob([editor.getValue()], {
+        type: "text/plain;charset=utf-8",
+      });
+      saveAs(blob, "nexus_code.txt");
+    }
+
+    document.getElementById("loadfile").addEventListener("change", function () {
+      var fr = new FileReader();
+      fr.onload = function () {
+        editor.setValue(fr.result, -1);
+      };
+      fr.readAsText(this.files[0]);
+    });
+
+    if (localStorage.getItem("luaEditor")) {
+      editor.setValue(localStorage.getItem("luaEditor"), -1);
+    }
+
+    editor.on("input", () => {
+      localStorage.setItem("luaEditor", editor.getValue());
+    });
+
+    $('#autoExecuteNexus').prop('checked', localStorage.getItem("autoExecuteNexus") == 'true');
+  </script>
+</div>

@@ -5,6 +5,6 @@
       icon="line-md:check-list-3-filled"
     ></iconify-icon>
     <h2>All Done!</h2>
-    <button class="login" onclick="$('#modalHolder').html('')">Okay</button>
+    <button class="login" onclick="$('#modalHolder').fadeOut('fast', ()=>{$('#modalHolder').html('')})">Okay</button>
   </div>
 </div>

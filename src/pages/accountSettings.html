@@ -12,18 +12,41 @@
       onchange="setCustomAlias(this.value)"
     />
   </div>
-  <button>Sell Account</button>
+  <div class="group flex">
+    <h4>Show Username</h4>
+    <div class="checkbox-wrapper-2">
+      <input
+        type="checkbox"
+        id="accountShowUsername"
+        onchange="setShowUsername(this.checked)"
+        class="sc-gJwTLC ikxBAC"
+      />
+    </div>
+  </div>
+  <button onclick="load_page('home')">Back</button>
+
+  </div>
+
+  <script>
+    $(".accountSettings #accountAlias").val(selectedAccount.Alias);
+    $(".accountSettings #username").text(selectedAccount.UserName);
+    $(".accountSettings #accountShowUsername").prop(
+      "checked",
+      selectedAccount.showUserName
+    );
+
+    function setCustomAlias(alias) {
+      selectedAccount.Alias = alias;
+      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+      saved_users[selectedAccount.UserID] = selectedAccount;
+      localStorage.setItem("accounts", JSON.stringify(saved_users));
+    }
+
+    function setShowUsername(show) {
+      selectedAccount.showUserName = show;
+      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+      saved_users[selectedAccount.UserID] = selectedAccount;
+      localStorage.setItem("accounts", JSON.stringify(saved_users));
+    }
+  </script>
 </div>
-
-
-<script>
-  $(".accountSettings #accountAlias").val(selectedAccount.Alias);
-  $(".accountSettings #username").text(selectedAccount.UserName);
-
-  function setCustomAlias(alias) {
-    selectedAccount.Alias = alias;
-    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-    saved_users[selectedAccount.UserID] = selectedAccount;
-    localStorage.setItem("accounts", JSON.stringify(saved_users));
-  }
-</script>

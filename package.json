@@ -4,7 +4,10 @@
   "description": "Roblox Account Manager",
   "main": "index.js",
   "scripts": {
-    "test": "electron ."
+    "test": "electron .",
+    "rebuild": "./node_modules/.bin/electron-rebuild",
+    "deploy": "node ./config/firebase-deploy.js",
+    "start": "electron ./main.js"
   },
   "author": "Abrahampo1",
   "license": "ISC",
@@ -12,9 +15,13 @@
     "electron": "^22.0.0"
   },
   "dependencies": {
+    "ace-builds": "^1.14.0",
     "crypto-js": "^4.1.1",
+    "firebase": "^9.15.0",
     "jquery": "^3.6.2",
     "noblox.js": "^4.13.1",
-    "robloxlauncherapi": "github:abrahampo1/RobloxClientApi"
+    "node-notifier": "^10.0.1",
+    "robloxlauncherapi": "github:abrahampo1/RobloxClientApi",
+    "ws": "^8.11.0"
   }
 }

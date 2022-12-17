@@ -1,0 +1,55 @@
+<div class="modal">
+  <div style="text-align: center">
+    <h1>RoAM ID</h1>
+    <input
+      type="email"
+      id="useremail"
+      placeholder="Email..."
+      style="width: 250px"
+    />
+    <br />
+    <input
+      type="password"
+      id="userpass"
+      placeholder="Password..."
+      style="width: 250px"
+    />
+    <br />
+    <button
+      class="login"
+      style="width: 250px"
+      onclick="firebaseLogin($('#useremail').val(), $('#userpass').val())"
+    >
+      Login
+    </button>
+    <br />
+    <br />
+    <a
+      href="#"
+      style="margin-top: 10px"
+      onclick="$('#modalHolder').load('modals/login/restore.html')"
+      >Restore Password...</a
+    >
+    <br />
+    <br />
+    <a
+      href="#"
+      style="margin-top: 10px"
+      onclick="$('#modalHolder').load('modals/login/create.html')"
+      >Create a new RoAM ID</a
+    >
+    <br />
+    <br />
+
+    <a href="#" style="margin-top: 10px" onclick="noUseFirebase()"
+      >Dont use RoAM ID</a
+    >
+  </div>
+</div>
+
+<script>
+  function giveUp() {
+    localStorage.clear();
+    location.reload();
+  }
+</script>

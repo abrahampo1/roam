@@ -85,6 +85,15 @@ nav iconify-icon {
     font-size: 25px;
 }
 
+.sidebar .disabled iconify-icon {
+    filter: brightness(.7);
+}
+
+.sidebar .disabled iconify-icon:hover {
+    transform: none !important;
+    background-color: var(--primary) !important;
+}
+
 .sidebar .icon iconify-icon:hover {
     transform: scale(1.1);
     background-color: var(--secondary);
@@ -224,6 +233,7 @@ input.search {
     box-sizing: border-box;
     border-radius: 10px;
     background-color: var(--secondary);
+    margin-bottom: 10px;
 
 }
 
@@ -261,6 +271,10 @@ input.search {
     width: 100%;
     height: 100%;
     z-index: 100;
+}
+
+#preload .modal {
+    z-index: 1001;
 }
 
 .blinker {
@@ -396,4 +410,287 @@ p.alert {
     padding: 5px;
     box-sizing: border-box;
     font-size: 10px;
+}
+
+a {
+    color: rgb(97, 97, 255);
+}
+
+
+.checkbox-wrapper-2 {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-wrapper-2 .ikxBAC {
+    appearance: none;
+    background-color: #dfe1e4;
+    border-radius: 72px;
+    border-style: none;
+    flex-shrink: 0;
+    height: 20px;
+    margin: 0;
+    position: relative;
+    width: 30px;
+}
+
+.checkbox-wrapper-2 .ikxBAC::before {
+    bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+}
+
+.checkbox-wrapper-2 .ikxBAC,
+.checkbox-wrapper-2 .ikxBAC::after {
+    transition: all 100ms ease-out;
+}
+
+.checkbox-wrapper-2 .ikxBAC::after {
+    background-color: #fff;
+    border-radius: 50%;
+    content: "";
+    height: 14px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: 14px;
+}
+
+.checkbox-wrapper-2 input[type=checkbox] {
+    cursor: default;
+    width: 30px !important;
+}
+
+.checkbox-wrapper-2 .ikxBAC:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
+}
+
+.checkbox-wrapper-2 .ikxBAC:checked {
+    background-color: #6e79d6;
+}
+
+.checkbox-wrapper-2 .ikxBAC:checked::after {
+    background-color: #fff;
+    left: 13px;
+}
+
+.checkbox-wrapper-2 :focus:not(.focus-visible) {
+    outline: 0;
+}
+
+.checkbox-wrapper-2 .ikxBAC:checked:hover {
+    background-color: #535db3;
+}
+
+.editor {
+    width: 70%;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.editor * {
+    color: unset;
+    font-family: monospace;
+}
+
+#editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.nexusInterface {
+    width: 30%;
+    height: 100%;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.nexusInterface .nexus {
+    background-color: var(--primary);
+    border-radius: 10px;
+    height: 50%;
+    padding: 5px;
+    overflow-y: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.nexus .nexusBlock {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.562);
+    color: black;
+}
+
+.nexusInterface .actions {
+    height: 50%;
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.nexus::-webkit-scrollbar {
+    width: 0px;
+}
+
+.nexus p {
+    font-family: monospace;
+    font-size: 12px;
+    color: gray;
+}
+
+button.dark {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.tinymodal {
+    width: 250px;
+    height: 300px;
+    background-color: var(--primary);
+    border-radius: 10px;
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.tinymodal .topbar {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tinymodal iconify-icon {
+    font-size: 20px;
+}
+
+.modal.transparent {
+    background-color: rgba(0, 0, 0, 0.418);
+}
+
+.nexusAccount {
+    margin-bottom: 10px;
+    background-color: var(--background--secondary);
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.nexusAccount.selected {
+    background-color: var(--background);
+}
+
+*::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgb(211, 211, 211);
+    border-radius: 5px;
+}
+
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.shake-horizontal {
+    -webkit-animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+
+@-webkit-keyframes shake-horizontal {
+
+    0%,
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70% {
+        -webkit-transform: translateX(-10px);
+        transform: translateX(-10px);
+    }
+
+    20%,
+    40%,
+    60% {
+        -webkit-transform: translateX(10px);
+        transform: translateX(10px);
+    }
+
+    80% {
+        -webkit-transform: translateX(8px);
+        transform: translateX(8px);
+    }
+
+    90% {
+        -webkit-transform: translateX(-8px);
+        transform: translateX(-8px);
+    }
+}
+
+@keyframes shake-horizontal {
+
+    0%,
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70% {
+        -webkit-transform: translateX(-10px);
+        transform: translateX(-10px);
+    }
+
+    20%,
+    40%,
+    60% {
+        -webkit-transform: translateX(10px);
+        transform: translateX(10px);
+    }
+
+    80% {
+        -webkit-transform: translateX(8px);
+        transform: translateX(8px);
+    }
+
+    90% {
+        -webkit-transform: translateX(-8px);
+        transform: translateX(-8px);
+    }
+}
+
+.ramactions {
+    position: absolute;
+    bottom: 0px;
+    padding: 10px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
 }

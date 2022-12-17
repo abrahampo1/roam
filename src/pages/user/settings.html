@@ -1,0 +1,69 @@
+<div class="accountSettings">
+  <div class="group flex">
+    <h4>Email</h4>
+    <h4 id="fbaseEmail"></h4>
+  </div>
+  <div class="group flex">
+    <h4>User ID</h4>
+    <p style="margin: 0">
+      <iconify-icon
+        style="margin-right: 5px"
+        inline
+        icon="material-symbols:content-copy-outline"
+        onclick="copyText(auth.currentUser.uid, this)"
+      ></iconify-icon
+      ><span id="fbaseUID"></span>
+    </p>
+  </div>
+  <div class="group flex">
+    <h4>Security</h4>
+    <button onclick="restorePassword(auth.currentUser.email, this)">
+      Change Password
+    </button>
+  </div>
+  <div class="group flex">
+    <h4>
+      Cloud Backup
+      <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="Store a encrypted backup on google servers to never loose your accounts."
+      ></iconify-icon>
+    </h4>
+    <div class="checkbox-wrapper-2">
+      <input
+        type="checkbox"
+        id="useFirebase"
+        onchange="localStorage.setItem('CloudSync', this.checked)"
+        class="sc-gJwTLC ikxBAC"
+      />
+    </div>
+  </div>
+
+  <div class="flex">
+    <button
+      class="alert"
+      style="width: 100px; margin-top: 0px"
+      onclick="logOutFirebase()"
+    >
+      Log out
+    </button>
+  </div>
+</div>
+
+<script>
+  function lpage() {
+    if (auth.currentUser) {
+      $("#fbaseEmail").text(auth.currentUser.email);
+      $("#fbaseUID").text(auth.currentUser.uid);
+      $("#useFirebase").prop(
+        "checked",
+        localStorage.getItem("CloudSync") == "true"
+      );
+    } else {
+      $("#modalHolder").load("modals/login/auth.html");
+      $("#modalHolder").fadeIn();
+    }
+  }
+  lpage();
+</script>
