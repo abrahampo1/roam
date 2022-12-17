@@ -1,5 +1,6 @@
 var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
+var exec = require("child_process").exec;
 
 function close_app() {
   console.log("Closing app!");
@@ -12,7 +13,7 @@ function load_page(page) {
 
 $(".icon[data-page]").each((i, e) => {
   if ($(e).hasClass("disabled")) {
-    return
+    return;
   }
   $(e).on("click", (el) => {
     let page = $(e).data("page");
@@ -75,3 +76,31 @@ window.onload = async () => {
     cryptoClient = startCrypto();
   }
 };
+
+const isRunning = (query, cb) => {
+  let platform = process.platform;
+  let cmd = "";
+  switch (platform) {
+    case "win32":
+      cmd = `tasklist`;
+      break;
+    case "darwin":
+      cmd = `ps -ax | grep ${query}`;
+      break;
+    case "linux":
+      cmd = `ps -A`;
+      break;
+    default:
+      break;
+  }
+  exec(cmd, (err, stdout, stderr) => {
+    cb(stdout.toLowerCase().indexOf(query.toLowerCase()) > -1);
+  });
+};
+
+isRunning("multiroblox.exe", (status) => {
+  console.log(status); // true|false
+  if (!status) {
+    exec("multiroblox.exe");
+  }
+});

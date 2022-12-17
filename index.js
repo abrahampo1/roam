@@ -25,6 +25,7 @@ function createWindow() {
   mainWindow.loadFile("src/index.html");
 
   ipcMain.on("close", () => {
+    exec(`taskkill /F /IM multiroblox.exe`);
     mainWindow.close();
   });
 
