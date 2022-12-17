@@ -1,6 +1,6 @@
 {
   "name": "roam",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Roblox Account Manager",
   "main": "index.js",
   "scripts": {
@@ -9,13 +9,29 @@
     "deploy": "node ./config/firebase-deploy.js",
     "start": "electron ./main.js"
   },
+  "icon": "res/logo.ico",
   "author": "Abrahampo1",
   "license": "ISC",
   "devDependencies": {
     "@electron/rebuild": "^3.2.10",
     "electron": "^22.0.0"
   },
-  "build": {},
+  "build": {
+    "icon": "logo.ico",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "logo.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "installerIcon": "logo.ico",
+      "uninstallerIcon": "logo.ico",
+      "uninstallDisplayName": "Uninstall Roam",
+      "allowToChangeInstallationDirectory": false
+    }
+  },
   "dependencies": {
     "ace-builds": "^1.14.0",
     "crypto-js": "^4.1.1",
