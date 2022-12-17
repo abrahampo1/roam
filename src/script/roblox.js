@@ -29,8 +29,6 @@ async function addRobloxAccountWithCookie(cookie, alias = "") {
 }
 
 async function LoadPlaceDetails(placeID) {
-  localStorage.setItem("PlaceID", placeID);
-
   let universeId = await webGet(
     `https://apis.roblox.com/universes/v1/places/${placeID}/universe`
   );
