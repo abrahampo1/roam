@@ -1,7 +1,6 @@
 const WebSocketServer = require("ws");
 const notifier = require("node-notifier");
 const wss = new WebSocketServer.Server({ port: 5242 });
-const exec = require("child_process").exec;
 var NexusStart = true;
 
 let Nexus = {};

@@ -12,13 +12,23 @@
   "author": "Abrahampo1",
   "license": "ISC",
   "devDependencies": {
+    "@electron/rebuild": "^3.2.10",
     "electron": "^22.0.0"
+  },
+  "build": {
+    "files": [
+      "src/**/*",
+      "index.js",
+      "node_modules/**/*",
+      "multiroblox.exe"
+    ]
   },
   "dependencies": {
     "ace-builds": "^1.14.0",
     "crypto-js": "^4.1.1",
     "firebase": "^9.15.0",
     "jquery": "^3.6.2",
+    "mutexify": "^1.4.0",
     "noblox.js": "^4.13.1",
     "node-notifier": "^10.0.1",
     "robloxlauncherapi": "github:abrahampo1/RobloxClientApi",
