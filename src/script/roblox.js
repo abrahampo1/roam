@@ -1,6 +1,7 @@
 var { ipcRenderer } = require("electron");
 const noblox = require("noblox.js");
-var selectedPlaceID = 3016661674;
+
+var selectedPlaceID = localStorage.getItem("PlaceID") || 3016661674;
 var selectedAccount;
 
 function AddRobloxAccount() {
@@ -28,6 +29,8 @@ async function addRobloxAccountWithCookie(cookie, alias = "") {
 }
 
 async function LoadPlaceDetails(placeID) {
+  localStorage.setItem("PlaceID", placeID);
+
   let universeId = await webGet(
     `https://apis.roblox.com/universes/v1/places/${placeID}/universe`
   );

@@ -3,7 +3,13 @@
     <h1>Import from RAM</h1>
     <h3>Import all your accounts from Roblox Account Manager by ic3w0lf</h3>
     <div class="flex ramactions" style="justify-content: space-between">
-      <div></div>
+      <button
+        class="login"
+        style="width: 150px"
+        onclick="$('#modalHolder').fadeOut('fast', ()=>{$('#modalHolder').html('')})"
+      >
+        Cancel
+      </button>
       <button
         class="login"
         style="width: 150px"
@@ -68,7 +74,7 @@
       </button>
     </div>
   </div>
-  <div class="ramstep4" style="display: none; text-align: center;">
+  <div class="ramstep4" style="display: none; text-align: center">
     <h1>Importing Accounts...</h1>
     <h3 id="RAMCurrentStatus"></h3>
   </div>
@@ -80,7 +86,7 @@
     <div class="flex ramactions" style="justify-content: space-between">
       <div></div>
       <button
-      style="width: 150px;"
+        style="width: 150px"
         class="login"
         onclick="$('#modalHolder').fadeOut('fast', ()=>{$('#modalHolder').html('')})"
       >

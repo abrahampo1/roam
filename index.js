@@ -2,6 +2,25 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const { LaunchGame } = require("robloxlauncherapi");
 const { exec } = require("child_process");
 const axios = require("axios");
+const fs = require("fs");
+const rootPath = require("electron-root-path").rootPath;
+const download = require("download");
+
+async function multiRoblox() {
+  if (!fs.existsSync(process.env.APPDATA + "/roam")) {
+    fs.mkdirSync(process.env.APPDATA + "/roam");
+  }
+
+  if (!fs.existsSync("multiroblox.exe")) {
+    await download(
+      "https://github.com/abrahampo1/ROAM/raw/master/multiroblox.exe",
+      process.env.APPDATA + "/roam"
+    );
+  }
+  exec(process.env.APPDATA + "/roam/multiroblox.exe");
+}
+
+multiRoblox();
 
 let ContentWindow;
 
