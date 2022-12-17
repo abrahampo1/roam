@@ -28,3 +28,22 @@ All your roblox accounts on one place, save, create, manage, and execute script,
 
 So, no crappy virus flags, or random dependencies
 
+## How to compile by myself
+
+To compile roam your will need [Node.js 18.x](https://nodejs.org/en/)
+
+Once you get it just run
+
+```
+git clone https://github.com/abrahampo1/roam
+cd roam
+npm install
+npm test
+```
+
+
+## Screenshots
+
+![https://i.imgur.com/eghZrlk.png](https://i.imgur.com/eghZrlk.png)
+
+![https://i.imgur.com/m5rUTuI.png](https://i.imgur.com/m5rUTuI.png)
