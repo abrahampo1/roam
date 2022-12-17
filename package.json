@@ -19,8 +19,7 @@
     "files": [
       "src/**/*",
       "index.js",
-      "node_modules/**/*",
-      "multiroblox.exe"
+      "node_modules/**/*"
     ]
   },
   "dependencies": {
