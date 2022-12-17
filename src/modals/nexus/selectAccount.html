@@ -28,7 +28,7 @@
         (a) => a.name.toLowerCase().indexOf(query.toLowerCase()) > -1
       );
     }
-    $(".nexusAccounts").html('')
+    $(".nexusAccounts").html("");
     search.forEach((element) => {
       let acc = $('<div class="nexusAccount">' + element.name + "</div>");
       let find = NexusSelected.find((elem) => elem.id == element.id);

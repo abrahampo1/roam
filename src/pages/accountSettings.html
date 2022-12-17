@@ -28,24 +28,24 @@
   </div>
 
   <script>
-    $(".accountSettings #accountAlias").val(selectedAccount.Alias);
-    $(".accountSettings #username").text(selectedAccount.UserName);
+    $(".accountSettings #accountAlias").val(selectedAccount[0].Alias);
+    $(".accountSettings #username").text(selectedAccount[0].UserName);
     $(".accountSettings #accountShowUsername").prop(
       "checked",
-      selectedAccount.showUserName
+      selectedAccount[0].showUserName
     );
 
     function setCustomAlias(alias) {
-      selectedAccount.Alias = alias;
+      selectedAccount[0].Alias = alias;
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-      saved_users[selectedAccount.UserID] = selectedAccount;
+      saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
     }
 
     function setShowUsername(show) {
-      selectedAccount.showUserName = show;
+      selectedAccount[0].showUserName = show;
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-      saved_users[selectedAccount.UserID] = selectedAccount;
+      saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
     }
   </script>

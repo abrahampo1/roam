@@ -107,7 +107,8 @@ function functionParser(command, payload) {
       setTimeout(() => {
         let accounts = JSON.parse(localStorage.getItem("accounts")) || {};
         if (accounts[uid]) {
-          selectedAccount = accounts[uid];
+          selectedAccount = [];
+          selectedAccount.push(accounts[uid]);
         }
         LaunchAccount();
       }, waitTime);

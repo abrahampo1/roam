@@ -35,6 +35,10 @@ async function LoadPlaceDetails(placeID) {
 
   universeId = universeId.universeId;
 
+  if (!universeId) {
+    return;
+  }
+
   let placeDetails = await webGet(
     `https://games.roblox.com/v1/games?universeIds=${universeId}`
   );
@@ -96,5 +100,27 @@ async function robloxBlock(account, blockUserID) {
     cookie: cryptoClient.decrypt(account.cookie),
     token: xcsrf,
     uid: blockUserID,
+  });
+}
+
+async function checkRobloxVerified() {
+  let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+  Object.entries(saved_users).forEach(([key, r]) => {
+    console.log(r);
+    ipcRenderer.send("RobloxRequest", {
+      url: "https://accountsettings.roblox.com/v1/email",
+      cookie: cryptoClient.decrypt(r.cookie),
+      method: "GET",
+      cb: "2FAResult",
+      uid: r.UserID,
+    });
+  });
+
+  ipcRenderer.on("2FAResult", (s, data) => {
+    if (!data.verified) {
+      return;
+    }
+    $("#userCard-" + data.uid + " .mail").fadeIn("fast");
+    $("#userCard-" + data.uid + " .mail").attr("title", data.emailAddress);
   });
 }

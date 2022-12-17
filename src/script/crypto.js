@@ -16,7 +16,7 @@ function startCrypto() {
 
   CRYPTO.login = function loginCrypto(input) {
     let pass = input.val();
-    
+
     if (
       CryptoJS.AES.decrypt(CryptoSetup, pass).toString(CryptoJS.enc.Utf8) ==
       "works"
@@ -25,6 +25,7 @@ function startCrypto() {
       $("#modalHolder").fadeOut("fast", () => {
         $("#modalHolder").html("");
       });
+      $('.sidebar .icon[data-page="home"]').click();
     } else {
       $(input).val("");
       $(input).addClass("shake-horizontal");

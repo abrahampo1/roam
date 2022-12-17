@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
-const { LaunchGame } = require("robloxlauncherapi");
+const { LaunchGame, RobloxRequest } = require("robloxlauncherapi");
 const { exec } = require("child_process");
 const axios = require("axios");
 const fs = require("fs");
@@ -95,37 +95,16 @@ ipcMain.on("LaunchGame", (sender, data) => {
 const formUrlEncoded = (x) =>
   Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, "");
 
-async function BlockUser(
-  cookie,
-  token,
-  userID,
-  data = {},
-  referer = "https://www.roblox.com/games/606849621/Jailbreak"
-) {
-  return new Promise(async (resolve, reject) => {
-    var myInit = {
-      headers: {
-        Cookie: ".ROBLOSECURITY=" + cookie + ";",
-        "X-CSRF-TOKEN": token,
-        Referer: referer,
-      },
-      baseURL: referer,
-      cache: "default",
-    };
-
-    let destination = `https://accountsettings.roblox.com/v1/users/${userID}/block`;
-    myInit.headers["Content-Type"] = "application/x-www-form-urlencoded";
-    axios
-      .post(destination, formUrlEncoded(data), myInit)
-      .then((r) => {
-        resolve(r);
-      })
-      .catch((error) => {
-        resolve(error);
-      });
-  });
-}
-
 ipcMain.on("BlockRobloxUser", (res, data) => {
-  BlockUser(data.cookie, data.token, data.uid);
+  RobloxRequest(
+    `https://accountsettings.roblox.com/v1/users/${data.uid}/block`,
+    data.cookie,
+    "POST"
+  );
+});
+
+ipcMain.on("RobloxRequest", async (res, data) => {
+  let cb = await RobloxRequest(data.url, data.cookie, data.method);
+  cb.data["uid"] = data.uid;
+  ContentWindow.webContents.send(data.cb, cb.data);
 });

@@ -118,6 +118,9 @@ function firebaseCreate(mail, pass, reppass) {
 async function getCloudAccounts() {
   const docSnap = await getDoc(doc(db, "/accounts/" + auth.currentUser.uid));
   const cloudAcc = docSnap.data();
+  if (!cloudAcc.rbxAccounts) {
+    return;
+  }
   Object.entries(cloudAcc.rbxAccounts).forEach(([key, element]) => {
     $("#userCard-" + element.UserID + " .cloud").fadeIn("fast");
   });
