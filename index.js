@@ -1,25 +1,10 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
-const { LaunchGame } = require("robloxlauncherapi");
+const { LaunchGame, RobloxRequest } = require("robloxlauncherapi");
 const { exec } = require("child_process");
 const axios = require("axios");
+const os = require("os");
 const fs = require("fs");
-const download = require("download");
-
-async function multiRoblox() {
-  if (!fs.existsSync(process.env.APPDATA + "/roam")) {
-    fs.mkdirSync(process.env.APPDATA + "/roam");
-  }
-
-  if (!fs.existsSync("multiroblox.exe")) {
-    await download(
-      "https://github.com/abrahampo1/ROAM/raw/master/multiroblox.exe",
-      process.env.APPDATA + "/roam"
-    );
-  }
-  exec(process.env.APPDATA + "/roam/multiroblox.exe");
-}
-
-multiRoblox();
+const { DownloaderHelper } = require("node-downloader-helper");
 
 let ContentWindow;
 
@@ -95,37 +80,65 @@ ipcMain.on("LaunchGame", (sender, data) => {
 const formUrlEncoded = (x) =>
   Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, "");
 
-async function BlockUser(
-  cookie,
-  token,
-  userID,
-  data = {},
-  referer = "https://www.roblox.com/games/606849621/Jailbreak"
-) {
-  return new Promise(async (resolve, reject) => {
-    var myInit = {
-      headers: {
-        Cookie: ".ROBLOSECURITY=" + cookie + ";",
-        "X-CSRF-TOKEN": token,
-        Referer: referer,
-      },
-      baseURL: referer,
-      cache: "default",
-    };
+ipcMain.on("BlockRobloxUser", (res, data) => {
+  RobloxRequest(
+    `https://accountsettings.roblox.com/v1/users/${data.uid}/block`,
+    data.cookie,
+    "POST"
+  );
+});
 
-    let destination = `https://accountsettings.roblox.com/v1/users/${userID}/block`;
-    myInit.headers["Content-Type"] = "application/x-www-form-urlencoded";
-    axios
-      .post(destination, formUrlEncoded(data), myInit)
-      .then((r) => {
-        resolve(r);
-      })
-      .catch((error) => {
-        resolve(error);
-      });
-  });
+ipcMain.on("RobloxRequest", async (res, data) => {
+  let cb = await RobloxRequest(data.url, data.cookie, data.method);
+  cb.data["uid"] = data.uid;
+  ContentWindow.webContents.send(data.cb, cb.data);
+});
+async function checkUpdate() {
+  let g = await axios.get(
+    "https://api.github.com/repos/abrahampo1/roam/releases/latest"
+  );
+  console.log(g.data.tag_name);
+
+  if (app.getVersion() < g.data.tag_name) {
+    console.log("App needs an update");
+    console.log("Searching for my platform " + os.platform());
+    let myPackage = g.data.assets.find(
+      (a) => a.name == app.getName() + ".Setup." + os.platform() + ".exe"
+    );
+    fs.rmSync(process.env.APPDATA + "/roam/" + myPackage.name, {
+      recursive: true,
+      force: true,
+    });
+    let dl = new DownloaderHelper(
+      myPackage.browser_download_url,
+      process.env.APPDATA + "/roam"
+    );
+
+    dl.on("end", (data) => {
+      exec(data.filePath);
+      ContentWindow.webContents.send("updateIncoming");
+    });
+    dl.start();
+  }
 }
 
-ipcMain.on("BlockRobloxUser", (res, data) => {
-  BlockUser(data.cookie, data.token, data.uid);
-});
+checkUpdate();
+async function multiRoblox() {
+  if (!fs.existsSync(process.env.APPDATA + "/roam")) {
+    fs.mkdirSync(process.env.APPDATA + "/roam");
+  }
+
+  if (!fs.existsSync("multiroblox.exe")) {
+    let dl = new DownloaderHelper(
+      "https://github.com/abrahampo1/ROAM/raw/master/multiroblox.exe",
+      process.env.APPDATA + "/roam"
+    );
+    await dl.start();
+    dl.on("end", (data) => {
+      exec(data.filePath);
+    });
+  }
+  exec(process.env.APPDATA + "/roam/multiroblox.exe");
+}
+
+multiRoblox();
