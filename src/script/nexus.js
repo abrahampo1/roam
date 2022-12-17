@@ -40,7 +40,7 @@ wss.on("connection", (ws, req) => {
 
     NexusSelected.forEach((element) => {
       if (urldata.searchParams.get("id") == element.id) {
-        $(".nexusBlock").fadeOut("fast");
+        $(".nexus").removeClass("block");
       }
     });
 
@@ -61,7 +61,7 @@ wss.on("connection", (ws, req) => {
     $("#userCard-" + urldata.searchParams.get("id") + " .nexus").fadeOut();
     NexusSelected.forEach((element) => {
       if (urldata.searchParams.get("id") == element.id) {
-        $(".nexusBlock").fadeIn();
+        $(".nexus").addClass("block");
       }
     });
   });

@@ -85,7 +85,7 @@
     $("#userList").html("");
     accs.forEach((data) => {
       let sel = "";
-      if (selectedAccount && selectedAccount.UserID == data.UserID) {
+      if (selectedAccount.indexOf((e) => e.UserID == data.UserID) > -1) {
         sel = "selected";
         $(".game #block").hide();
         LoadPlaceDetails($("#placeId").val());
@@ -95,11 +95,10 @@
         data.UserName = "";
       }
 
-      $("#userList").append(`
+      $("#userList").append(
+        $(`
         
-        <div class="user ${sel}" id="userCard-${
-        data.UserID
-      }" onclick="selectAccount('${data.UserID}', this)">
+        <div class="user ${sel}" id="userCard-${data.UserID}">
       <div class="flex">
         <p class="primary">${data.UserName}</p>
         <p class="secondary">${data.Alias || ""}</p>
@@ -111,7 +110,24 @@
       </div>
     </div>
         
-        `);
+        `).on("click", (e) => {
+          if (!e.shiftKey) {
+            selectAccount(data.UserID, e.target);
+          } else {
+            if (selectedAccount.indexOf((e) => e.UserID == data.UserID) > -1) {
+              selectedAccount = selectedAccount.slice(
+                selectedAccount.indexOf((e) => e.UserID == data.UserID),
+                1
+              );
+              e.target.classList.remove("selected");
+            } else {
+              selectedAccount.push(data);
+              e.target.classList.add("selected");
+            }
+            LoadPlaceDetails($("#placeId").val());
+          }
+        })
+      );
     });
     LoadPlaceDetails(localStorage.getItem("PlaceID"));
   }
@@ -120,7 +136,8 @@
   }
   function selectAccount(uid, el) {
     let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-    selectedAccount = saved_users[uid];
+    selectedAccount = [];
+    selectedAccount.push(saved_users[uid]);
     $(".game #block").fadeOut();
     $("#userList .selected").removeClass("selected");
     $(el).addClass("selected");

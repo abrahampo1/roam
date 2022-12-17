@@ -3,7 +3,6 @@ const { LaunchGame } = require("robloxlauncherapi");
 const { exec } = require("child_process");
 const axios = require("axios");
 const fs = require("fs");
-const rootPath = require("electron-root-path").rootPath;
 const download = require("download");
 
 async function multiRoblox() {

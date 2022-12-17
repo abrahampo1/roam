@@ -7,30 +7,48 @@
         onclick="$('#modalHolder').fadeOut()"
       ></iconify-icon>
     </div>
+    <input
+      type="text"
+      oninput="loadNexusAccounts(this.value)"
+      style="margin-bottom: 10px"
+      placeholder="Search"
+    />
     <div class="nexusAccounts"></div>
   </div>
 </div>
 
 <script>
   $(".nexusAccounts").html("");
-  
-  NexusAccounts.forEach((element) => {
-    let acc = $('<div class="nexusAccount">' + element.name + "</div>");
-    let find = NexusSelected.find((elem) => elem.id == element.id);
-    if (find) {
-      $(acc).addClass("selected");
-    }
-    $(acc).on("click", () => {
-      let find = NexusSelected.findIndex((elem) => elem.id == element.id);
-      if (find < 0) {
-        NexusSelected.push(element);
-        $(acc).addClass("selected");
-      } else {
-        NexusSelected.splice(find, 1);
-        $(acc).removeClass("selected");
-      }
-    });
 
-    $(".nexusAccounts").append(acc);
-  });
+  function loadNexusAccounts(query) {
+    let search = NexusAccounts;
+
+    if (query) {
+      search = search.filter(
+        (a) => a.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+      );
+    }
+    $(".nexusAccounts").html('')
+    search.forEach((element) => {
+      let acc = $('<div class="nexusAccount">' + element.name + "</div>");
+      let find = NexusSelected.find((elem) => elem.id == element.id);
+      if (find) {
+        $(acc).addClass("selected");
+      }
+      $(acc).on("click", () => {
+        let find = NexusSelected.findIndex((elem) => elem.id == element.id);
+        if (find < 0) {
+          NexusSelected.push(element);
+          $(acc).addClass("selected");
+        } else {
+          NexusSelected.splice(find, 1);
+          $(acc).removeClass("selected");
+        }
+      });
+
+      $(".nexusAccounts").append(acc);
+    });
+  }
+
+  loadNexusAccounts();
 </script>

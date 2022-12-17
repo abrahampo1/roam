@@ -2,7 +2,7 @@ var { ipcRenderer } = require("electron");
 const noblox = require("noblox.js");
 
 var selectedPlaceID = localStorage.getItem("PlaceID") || 3016661674;
-var selectedAccount;
+var selectedAccount = [];
 
 function AddRobloxAccount() {
   return new Promise((resolve, reject) => {
@@ -56,23 +56,37 @@ async function LoadPlaceDetails(placeID) {
   selectedPlaceID = placeID;
 }
 
-function LaunchAccount() {
-  ipcRenderer.send("LaunchGame", {
-    cookie: cryptoClient.decrypt(selectedAccount.cookie),
-    placeId: selectedPlaceID,
-    followPlayer: $("#followPlayer").val(),
-  });
-
-  $(".game #join").fadeIn("fast");
+async function LaunchAccount() {
+  for (key in selectedAccount) {
+    let a = selectedAccount[key];
+    $(".game #join").fadeIn("fast");
+    await LaunchPlayer(
+      cryptoClient.decrypt(a.cookie),
+      selectedPlaceID,
+      $("#followPlayer").val()
+    );
+  }
+  $(".game #join").fadeOut("fast");
 }
 
-ipcRenderer.on("LauncherLink", (sender, link) => {
-  let a = document.createElement("a");
-  a.href = link;
-  document.body.appendChild(a);
-  a.click();
-  $(".game #join").fadeOut("fast");
-});
+function LaunchPlayer(cookie, placeID, follow) {
+  return new Promise((resolve, reject) => {
+    ipcRenderer.send("LaunchGame", {
+      cookie: cookie,
+      placeId: placeID,
+      followPlayer: follow,
+    });
+    ipcRenderer.on("LauncherLink", (sender, link) => {
+      let a = document.createElement("a");
+      a.href = link;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        resolve(link);
+      }, 2500);
+    });
+  });
+}
 
 async function robloxBlock(account, blockUserID) {
   let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
