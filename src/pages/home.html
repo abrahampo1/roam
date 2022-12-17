@@ -51,8 +51,8 @@
       type="text"
       id="placeId"
       placeholder="Place ID"
-      onchange="LoadPlaceDetails(this.value)"
-      value="3016661674"
+      onchange="LoadPlaceDetails(this.value);localStorage.setItem('PlaceID', this.value);  "
+      value=""
     />
   </div>
 
@@ -113,6 +113,7 @@
         
         `);
     });
+    LoadPlaceDetails(localStorage.getItem("PlaceID"));
   }
   if (localStorage.getItem("useFirebase") == "true" && auth.currentUser) {
     getCloudAccounts();
