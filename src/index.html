@@ -10,12 +10,27 @@
   </head>
   <body>
     <nav>
-      <div>RoAM</div>
+      <div class="flex">
+        <img
+          src="image/logo.png"
+          width="20px"
+          height="20px"
+          alt=""
+          style="margin-right: 10px"
+        />
+      </div>
       <div class="dragzone"></div>
-      <iconify-icon
-        icon="material-symbols:close-rounded"
-        onclick="close_app()"
-      ></iconify-icon>
+      <div class="flex">
+        <iconify-icon
+        style="margin-right: 5px"
+          icon="fluent:minimize-16-filled"
+          onclick="minimize_app()"
+        ></iconify-icon>
+        <iconify-icon
+          icon="material-symbols:close-rounded"
+          onclick="close_app()"
+        ></iconify-icon>
+      </div>
     </nav>
     <div class="sidebar">
       <div class="icon selected" data-page="home">
