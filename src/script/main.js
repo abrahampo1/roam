@@ -12,6 +12,10 @@ function minimize_app() {
 
 function load_page(page) {
   $("#app").load("pages/" + page + ".html");
+  $("#app").addClass("fade-in");
+  $("#app").on("animationend", () => {
+    $("#app").removeClass("fade-in");
+  });
 }
 
 $(".icon[data-page]").each((i, e) => {

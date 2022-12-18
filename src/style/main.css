@@ -60,6 +60,12 @@ nav iconify-icon {
     box-sizing: border-box;
     padding: 10px;
     display: flex;
+
+}
+
+.fade-in {
+    -webkit-animation: fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    animation: fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
 }
 
 .sidebar {
@@ -210,6 +216,7 @@ input {
     background-color: var(--secondary);
     border-radius: 10px;
     margin-top: 10px;
+    transition: outline 0.1s;
 }
 
 input:focus {
@@ -315,15 +322,27 @@ p.alert {
 
 .accountSettings {
     width: 60%;
+    margin-right: 10px;
+    box-sizing: border-box;
+
 }
 
-.accountSettings .group h4 {
+.accountSettings .content {
+    background-color: var(--primary);
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.accountSettings .group h4, .accountSettings .group p {
+    margin: 0px;
+}
+
+.accountSettings .content .group:last-child {
     margin: 0px;
 }
 
 .accountSettings .group {
-    background-color: var(--primary);
-    border-radius: 10px;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -335,6 +354,15 @@ p.alert {
 .accountSettings .group input {
     width: 250px;
     margin-top: 0px;
+}
+
+.accountSettingsSidebar {
+    width: 40%;
+    box-sizing: border-box;
+}
+
+.accountSettingsSidebar button {
+    width: 100%;
 }
 
 .infoPanel {
@@ -428,7 +456,7 @@ a {
 
 .checkbox-wrapper-2 .ikxBAC {
     appearance: none;
-    background-color: #dfe1e4;
+    background-color: #808080;
     border-radius: 72px;
     border-style: none;
     flex-shrink: 0;
@@ -453,7 +481,7 @@ a {
 }
 
 .checkbox-wrapper-2 .ikxBAC::after {
-    background-color: #fff;
+    background-color: rgb(19, 19, 19);
     border-radius: 50%;
     content: "";
     height: 14px;
@@ -469,8 +497,8 @@ a {
 }
 
 .checkbox-wrapper-2 .ikxBAC:hover {
-    background-color: #c9cbcd;
-    transition-duration: 0s;
+    background-color: #5c5c5c;
+    transition-duration: 0.1s;
 }
 
 .checkbox-wrapper-2 .ikxBAC:checked {
@@ -478,7 +506,7 @@ a {
 }
 
 .checkbox-wrapper-2 .ikxBAC:checked::after {
-    background-color: #fff;
+    background-color: rgb(19, 19, 19);
     left: 13px;
 }
 
@@ -703,4 +731,26 @@ button.dark {
 
 .nexus.block {
     box-shadow: rgba(255, 0, 0, 0.35) 3px 3px 6px 0px inset, rgba(255, 0, 0, 0.35) -3px -3px 6px 1px inset;
+}
+
+
+
+@-webkit-keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
