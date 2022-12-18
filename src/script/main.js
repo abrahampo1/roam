@@ -3,12 +3,19 @@ window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
 
 function close_app() {
-  console.log("Closing app!");
   ipcRenderer.send("close");
+}
+
+function minimize_app() {
+  ipcRenderer.send("minimize");
 }
 
 function load_page(page) {
   $("#app").load("pages/" + page + ".html");
+  $("#app").addClass("fade-in");
+  $("#app").on("animationend", () => {
+    $("#app").removeClass("fade-in");
+  });
 }
 
 $(".icon[data-page]").each((i, e) => {

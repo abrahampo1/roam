@@ -1,35 +1,46 @@
 <div class="accountSettings">
-  <div class="group flex">
-    <h4>Account Name</h4>
-    <h4 id="username"></h4>
-  </div>
-  <div class="group flex">
-    <h4>Alias</h4>
-    <input
-      type="text"
-      id="accountAlias"
-      placeholder="Custom Alias..."
-      onchange="setCustomAlias(this.value)"
-    />
-  </div>
-  <div class="group flex">
-    <h4>Show Username</h4>
-    <div class="checkbox-wrapper-2">
+  <div class="flex" style="justify-content:space-between; margin-bottom: 10px;">
+    <button onclick="load_page('home')">Back</button>
+    <button onclick="deleteAccount()" class="alert" style="width: auto; margin: 0px">Remove account</button>
+</div>
+  <div class="content">
+    <div class="group flex">
+      <h4>Account Name</h4>
+      <p id="username"></p>
+    </div>
+    <div class="group flex">
+      <h4>Alias</h4>
       <input
-        type="checkbox"
-        id="accountShowUsername"
-        onchange="setShowUsername(this.checked)"
-        class="sc-gJwTLC ikxBAC"
+        type="text"
+        style="width: 30ch;"
+        id="accountAlias"
+        placeholder="Custom Alias..."
+        onchange="setCustomAlias(this.value)"
       />
     </div>
+    <div class="group flex">
+      <h4>Accont Age</h4>
+      <p id="accountAge"><iconify-icon inline icon="eos-icons:three-dots-loading"></iconify-icon></p>
+    </div>
+    <div class="group flex">
+      <h4>Show Username</h4>
+      <div class="checkbox-wrapper-2">
+        <input
+          type="checkbox"
+          id="accountShowUsername"
+          onchange="setShowUsername(this.checked)"
+          class="sc-gJwTLC ikxBAC"
+        />
+      </div>
+    </div>
   </div>
-<div class="flex" style="justify-content:space-between;">
-    <button onclick="load_page('home')">Back</button>
-    <button onclick="deleteAccount()">Delete Account</button>
-    
+
 
 </div>
 
+<div class="accountSettingsSidebar">
+  <div class="content">
+  </div>
   </div>
 
   <script>
@@ -60,5 +71,13 @@
         localStorage.setItem("accounts", JSON.stringify(saved_users));
         $('.sidebar .icon[data-page="home"]').click();
     }
+
+    async function loadRbxAccountDetails(){
+      let details = await noblox.getPlayerInfo({userId: selectedAccount[0].UserID});
+      console.log(details)
+      $('.accountSettings #accountAge').html(details.age + ' days')
+    }
+
+    loadRbxAccountDetails()
   </script>
 </div>

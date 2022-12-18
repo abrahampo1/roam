@@ -5,6 +5,7 @@ const axios = require("axios");
 const os = require("os");
 const fs = require("fs");
 const { DownloaderHelper } = require("node-downloader-helper");
+var http = require("http");
 
 let ContentWindow;
 
@@ -30,6 +31,9 @@ function createWindow() {
   ipcMain.on("close", () => {
     exec(`taskkill /F /IM multiroblox.exe`);
     mainWindow.close();
+  });
+  ipcMain.on("minimize", () => {
+    mainWindow.minimize();
   });
 
   return mainWindow;
@@ -91,6 +95,9 @@ ipcMain.on("BlockRobloxUser", (res, data) => {
 
 ipcMain.on("RobloxRequest", async (res, data) => {
   let cb = await RobloxRequest(data.url, data.cookie, data.method);
+  if (!cb.data) {
+    return;
+  }
   cb.data["uid"] = data.uid;
   ContentWindow.webContents.send(data.cb, cb.data);
 });
@@ -143,3 +150,4 @@ async function multiRoblox() {
 }
 
 multiRoblox();
+

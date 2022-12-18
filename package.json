@@ -1,6 +1,6 @@
 {
   "name": "roam",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Roblox Account Manager",
   "main": "index.js",
   "scripts": {
