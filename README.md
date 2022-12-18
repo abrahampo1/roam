@@ -4,7 +4,7 @@
 
 
 <!-- BEGIN LATEST DOWNLOAD BUTTON -->
-[![Download zip](https://custom-icon-badges.herokuapp.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download")](https://github.com/abrahampo1/ROAM/releases/download/1.0/roam.Setup.1.0.0.exe)
+[![Download zip](https://custom-icon-badges.herokuapp.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download")](https://github.com/abrahampo1/ROAM/releases/download/1.0.2/roam.Setup.win32.exe)
 <!-- END LATEST DOWNLOAD BUTTON -->
 
 # ROAM
