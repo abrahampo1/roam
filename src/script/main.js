@@ -1,4 +1,3 @@
-const { ModuleWalker } = require("@electron/rebuild/lib/src/module-walker");
 var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
@@ -61,6 +60,7 @@ window.onload = async () => {
   ) {
     $("#preload .modal").fadeOut();
     $("#modalHolder ").load("modals/login/auth.html");
+    $("#fakebackground").fadeOut();
   }
 
   if (
@@ -72,8 +72,10 @@ window.onload = async () => {
       localStorage.getItem("authMail"),
       localStorage.getItem("authPass")
     ).then(() => {
+      cryptoClient = startCrypto();
       setTimeout(() => {
         $("#preload .modal").fadeOut();
+        $("#fakebackground").fadeOut();
       }, 100);
     });
   }
