@@ -32,6 +32,7 @@ function startCrypto() {
       setTimeout(() => {
         $(input).removeClass("shake-horizontal");
       }, 300);
+      $("#giveUp").fadeIn();
     }
   };
 

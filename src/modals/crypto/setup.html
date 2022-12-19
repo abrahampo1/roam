@@ -1,43 +1,28 @@
 <div class="modal">
-  <div>
-    <h1>
-      Set-up <span id="CrytoMsg">%&!E24sa/$)(34</span
-      ><span class="blinker"></span>
-    </h1>
-    <h3>This password is used to save your accounts</h3>
-    <p class="alert">Be careful, it's not restorable.</p>
+  <div style="width: 380px; text-align: center">
+    <iconify-icon
+      icon="fluent:shield-keyhole-20-filled"
+      style="text-align: center; font-size: 70px"
+    ></iconify-icon>
+    <p>Setup a crypto password to encrypt all your data.</p>
+    <p class="alert" style="margin-bottom: 0;">Be careful, it's not restorable.</p>
     <input
       type="text"
       id="cryptopass"
       placeholder="Password (min 8 characters)..."
+      autofocus
     />
     <input type="text" id="cryptopassrepeat" placeholder="Repeat Password..." />
-    <button class="login" onclick="setCrypto()">Next</button>
+  </div>
+  <div class="ramactions flex" style="justify-content: space-between">
+    <div></div>
+    <button style="width: 100px" class="login" onclick="setCrypto()">
+      Next
+    </button>
   </div>
 </div>
 
 <script>
-  let ctext = "Crypto";
-  let chard = "%&!E24sa/$)(34";
-  let time = 100;
-
-  setTimeout(() => {
-    for (let index = 0; index < chard.length; index++) {
-      setTimeout(() => {
-        chard = chard.slice(0, -1);
-        $("#CrytoMsg").text(chard);
-      }, time * index);
-    }
-
-    setTimeout(() => {
-      for (let index = 0; index < ctext.length; index++) {
-        setTimeout(() => {
-          $("#CrytoMsg").append(ctext.charAt(index));
-        }, time * index);
-      }
-    }, time * chard.length);
-  }, 1000);
-
   function setCrypto() {
     let pass = $("#cryptopass").val();
     let passrepeat = $("#cryptopassrepeat").val();

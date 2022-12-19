@@ -86,7 +86,7 @@ window.onload = async () => {
     !(localStorage.getItem("authMail") && localStorage.getItem("authPass"))
   ) {
     $("#preload .modal").fadeOut();
-    $("#modalHolder ").load("modals/login/auth.html");
+    $("#modalHolder ").load("modals/login/create.html");
     $("#fakebackground").fadeOut();
   }
 

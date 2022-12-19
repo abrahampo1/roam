@@ -13,15 +13,8 @@
       id="userpass"
       placeholder="Password..."
       style="width: 250px"
+      onchange="firebaseLogin($('#useremail').val(), $('#userpass').val())"
     />
-    <br />
-    <button
-      class="login"
-      style="width: 250px"
-      onclick="firebaseLogin($('#useremail').val(), $('#userpass').val())"
-    >
-      Login
-    </button>
     <br />
     <br />
     <a
@@ -40,10 +33,18 @@
     >
     <br />
     <br />
-
-    <a href="#" style="margin-top: 10px" onclick="noUseFirebase()"
-      >Dont use RoAM ID</a
+  </div>
+  <div class="ramactions flex" style="justify-content: space-between">
+    <button class="login" style="width: 100px" onclick="noUseFirebase()">
+      Skip
+    </button>
+    <button
+      class="login"
+      style="width: 100px"
+      onclick="firebaseLogin($('#useremail').val(), $('#userpass').val())"
     >
+      Login
+    </button>
   </div>
 </div>
 
