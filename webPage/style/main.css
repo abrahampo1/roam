@@ -1,0 +1,75 @@
+:root {
+    --primary: rgb(41, 41, 41);
+    --secondary: rgba(146, 146, 146, 0.253);
+    --background: rgba(0, 0, 0, 0.521);
+    --background--secondary: rgb(49, 49, 49);
+    --focus-color: rgb(96, 96, 255);
+    --text-color: white
+}
+
+
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    user-select: none;
+}
+
+html, body {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+h1 {
+    font-size: 80px;
+}
+
+h2 {
+    font-size: 50px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 25px;
+}
+
+.panel {
+    width: 100%;
+    padding-bottom: 200px;
+    background-color: var(--background--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+iconify-icon {
+    font-size: 55px;
+}
+
+.card iconify-icon {
+    font-size: 85px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.card {
+    width: 50%;
+    margin-right: 30px;
+    text-align: center;
+    background: rgb(0, 129, 207);
+    background: linear-gradient(180deg, rgba(0, 129, 207, 1) 0%, rgba(0, 176, 255, 1) 100%);
+    padding: 80px;
+    border-radius: 20px;
+}
+
+.panel .card:last-child {
+    margin: 0px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
