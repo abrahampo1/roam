@@ -2,6 +2,7 @@ var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
 const fs = require("fs");
+const { DownloaderHelper } = require("node-downloader-helper");
 
 const defaultSettings = {
   autoupdate: true,
@@ -86,7 +87,7 @@ window.onload = async () => {
     !(localStorage.getItem("authMail") && localStorage.getItem("authPass"))
   ) {
     $("#preload .modal").fadeOut();
-    $("#modalHolder ").load("modals/login/auth.html");
+    $("#modalHolder ").load("modals/login/create.html");
     $("#fakebackground").fadeOut();
   }
 

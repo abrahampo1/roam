@@ -21,24 +21,24 @@
       id="createuserpassrepeat"
       placeholder="Repeat Password..."
       style="width: 250px"
+      onchange="firebaseCreate($('#createuseremail').val(), $('#createuserpass').val(), $('#createuserpassrepeat').val())"
     />
-    <br />
+  </div>
+  <div class="ramactions flex" style="justify-content: space-between">
     <button
       class="login"
-      style="width: 250px"
+      style="width: 100px"
+      onclick="$('#modalHolder').load('modals/login/auth.html')"
+    >
+      Login
+    </button>
+    <button
+      class="login"
+      style="width: 100px"
       onclick="firebaseCreate($('#createuseremail').val(), $('#createuserpass').val(), $('#createuserpassrepeat').val())"
     >
       Create
     </button>
-    <br />
-    <br />
-
-    <a
-      href="#"
-      style="margin-top: 10px"
-      onclick="$('#modalHolder').load('modals/login/auth.html')"
-      >Back to login</a
-    >
   </div>
 </div>
 

@@ -204,7 +204,7 @@ button.play {
 }
 
 button:focus {
-    outline: 3px solid var(--focus-color);
+    outline: 1px solid var(--focus-color);
 }
 
 input {
@@ -215,11 +215,10 @@ input {
     background-color: var(--secondary);
     border-radius: 10px;
     margin-top: 10px;
-    transition: outline 0.1s;
 }
 
 input:focus {
-    outline: 3px solid var(--focus-color);
+    outline: 1px solid var(--focus-color);
 
 }
 
@@ -232,6 +231,7 @@ input.search {
     padding-right: 10px;
     box-sizing: border-box;
     overflow-y: auto;
+    padding-left: 1px;
 }
 
 .userList .user {
@@ -283,7 +283,7 @@ input.search {
     z-index: 100;
 }
 
-.modal .ramstep1 h3 a {
+a {
     color: orange;
     text-decoration: none;
 }
@@ -293,12 +293,13 @@ input.search {
 }
 
 #fakebackground {
- background-color: var(--primary);
- height:100%;
- width:100%;
- overflow:hidden; /* or overflow:auto; if you want scrollbars */
- z-index: 1000;
- position: absolute;
+    background-color: var(--primary);
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    /* or overflow:auto; if you want scrollbars */
+    z-index: 1000;
+    position: absolute;
 }
 
 .blinker {

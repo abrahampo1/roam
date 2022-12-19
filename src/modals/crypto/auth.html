@@ -1,15 +1,28 @@
 <div class="modal">
   <div style="text-align: center">
     <iconify-icon
-      icon="mdi:account-lock"
+      icon="fluent:shield-keyhole-20-filled"
       style="text-align: center; font-size: 70px"
     ></iconify-icon>
-    <h1>Crypto Password</h1>
-    <input type="password" id="cryptopass" placeholder="Password..." />
-    <button class="login" onclick="cryptoClient.login($('#cryptopass'))">
-      Next
+    <br>
+    <input
+      type="password"
+      id="cryptopass"
+      autofocus
+      onchange="cryptoClient.login($('#cryptopass'))"
+      placeholder="Crypto Password..."
+      style="width: 200px"
+    />
+    <br>
+    <button
+      class="alert"
+      style="width: 200px"
+      id="giveUp"
+      hidden
+      onclick="giveUp()"
+    >
+      Give up and delete all
     </button>
-    <button class="alert" onclick="giveUp()">Give up and delete all</button>
   </div>
 </div>
 

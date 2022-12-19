@@ -95,6 +95,10 @@
         data.UserName = "";
       }
 
+      if (!query && data.hide) {
+        return;
+      }
+
       $("#userList").append(
         $(`
         
@@ -104,10 +108,15 @@
         <p class="secondary">${data.Alias || ""}</p>
       </div>
       <div class="actions">
-        <iconify-icon icon="material-symbols:mail-lock-outline" style="margin-right: 5px; display: none" class="mail"></iconify-icon>
-        <iconify-icon icon="fluent:connected-16-filled" style="margin-right: 5px; display: none" class="nexus"></iconify-icon>
-        <iconify-icon icon="material-symbols:cloud-done-outline-rounded" style="margin-right: 5px; display: none" class="cloud"></iconify-icon>
-        <iconify-icon icon="material-symbols:settings" onclick="load_page('accountSettings')"></iconify-icon>
+        ${
+          data.hide
+            ? '<iconify-icon icon="bxs:hide" style="margin-right: 5px;" title="This Account is hidden"></iconify-icon>'
+            : ""
+        }
+        <iconify-icon icon="material-symbols:mail-lock-outline" style="margin-right: 5px; display: none" title="This Account is mail verified" class="mail"></iconify-icon>
+        <iconify-icon icon="fluent:connected-16-filled" title="Nexus Connected on this Account" style="margin-right: 5px; display: none" class="nexus"></iconify-icon>
+        <iconify-icon icon="material-symbols:cloud-done-outline-rounded" title="This Account have a cloud backup" style="margin-right: 5px; display: none" class="cloud"></iconify-icon>
+        <iconify-icon icon="material-symbols:settings" title="Account Settings" onclick="load_page('accountSettings')"></iconify-icon>
       </div>
     </div>
         

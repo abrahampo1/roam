@@ -43,12 +43,30 @@
     </h4>
     <p id="gitBranch"></p>
   </div>
+  <div class="group flex">
+    <h4>
+      Roblox Beta
+      <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="Disable Roblox Beta using the home patcher by @1011025m."
+      ></iconify-icon>
+    </h4>
+    <button
+      class="login"
+      style="width: 100px; margin: 0"
+      onclick="patchRobloxBeta(this)"
+    >
+      Patcher
+    </button>
+  </div>
 </div>
 
 <script>
   function loadthings() {
     $("#launcherDelay").val(localStorage.getItem("launcherDelay") || 2000);
     $("#checkUpdates").prop("checked", ReadGlobalSettings()["autoupdate"]);
+    $("#closeRobloxBeta").prop("checked", ReadGlobalSettings()["robloxbeta"]);
     $("#gitBranch").text(ReadGlobalSettings()["branch"] || "master");
 
     ipcRenderer.send("getVersion");
@@ -56,6 +74,38 @@
       $("#versionNumber").text(version);
     });
   }
-
   loadthings();
+  var patching = false;
+  async function patchRobloxBeta(btn) {
+    if (patching) {
+      return;
+    }
+
+    patching = true;
+    $(btn).text("UPDATING");
+    let g = await $.get(
+      "https://api.github.com/repos/1011025m/RobloxHomePatcher/releases/latest"
+    );
+    fs.rmSync(process.env.APPDATA + "/roam/" + g.assets[0].name, {
+      force: true,
+    });
+    let dl = new DownloaderHelper(
+      g.assets[0].browser_download_url,
+      process.env.APPDATA + "/roam"
+    );
+
+    dl.start();
+
+    dl.on("progress", (data) => {
+      $(btn).text(Math.round(data.progress) + "%");
+    });
+
+    dl.on("end", (data) => {
+      require("child_process").exec("start cmd /k " + data.filePath);
+      $(btn).text("EXECUTING");
+      setTimeout(() => {
+        $(btn).text("Patcher");
+      }, 3000);
+    });
+  }
 </script>

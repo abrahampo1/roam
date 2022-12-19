@@ -1,11 +1,11 @@
 {
   "name": "roam",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Roblox Account Manager",
   "main": "index.js",
   "scripts": {
     "test": "npm install && electron .",
-    "rebuild": "./node_modules/.bin/electron-rebuild"
+    "rebuild": "./node_modules/.bin/electron-rebuild.cmd"
   },
   "icon": "res/logo.ico",
   "author": "Abrahampo1",
