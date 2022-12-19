@@ -105,19 +105,6 @@ const isRunning = (query, cb) => {
   });
 };
 
-isRunning("multiroblox.exe", (status) => {
-  if (!status) {
-    exec(
-      process.env.APPDATA + "/roam/multiroblox.exe",
-      (error, stdout, stderr) => {
-        if (error) {
-          alert("MULTIROBLOX ERROR, REPORT ON DISCORD: " + error);
-        }
-      }
-    );
-  }
-});
-
 ipcRenderer.on("updateIncoming", () => {
   $("#update").fadeIn("fast");
 });

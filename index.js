@@ -145,6 +145,7 @@ async function multiRoblox() {
     dl.on("end", (data) => {
       exec(data.filePath);
     });
+    return;
   }
   exec(process.env.APPDATA + "/roam/multiroblox.exe");
 }
