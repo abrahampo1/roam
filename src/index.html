@@ -22,6 +22,11 @@
       <div class="dragzone"></div>
       <div class="flex">
         <iconify-icon
+          onclick="exec('start https://discord.gg/Ft9HtM7ZGa')"
+          style="margin-right: 5px"
+          icon="ic:baseline-discord"
+        ></iconify-icon>
+        <iconify-icon
           style="margin-right: 5px"
           icon="fluent:minimize-16-filled"
           onclick="minimize_app()"
@@ -47,13 +52,13 @@
       <div class="icon disabled" data-page="market" style="opacity: 0">
         <iconify-icon icon="mdi:marketplace-outline"></iconify-icon>
       </div>
-      <div class="icon" data-page="user/settings">
-        <iconify-icon icon="mdi:account-cog"></iconify-icon>
+      <div class="icon" data-page="settings/home">
+        <iconify-icon icon="material-symbols:settings-rounded"></iconify-icon>
       </div>
     </div>
     <div id="app"></div>
   </body>
-
+  <div id="fakebackground"></div>
   <div id="modalHolder"></div>
   <div id="preload">
     <div class="modal">
@@ -70,7 +75,8 @@
           Your program is autoupdating, please, click on accept on the prompt
         </p>
       </div>
-    </div>n 
+    </div>
+    n
   </div>
 </html>
 

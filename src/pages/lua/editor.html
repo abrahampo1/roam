@@ -1,3 +1,27 @@
+<div class="nexusTutorial">
+  <div class="content">
+    <h1>Welcome to Nexus</h1>
+  <p>Nexus is a script comunication protocol who let you interact with roblox from RoAM, you will need to inject Nexus.lua with your script executor to make it work.</p>
+  <p class="alert">RoAM its not an executor, only a interface for Nexus</p>
+  <div class="flex ramactions" style="justify-content: space-between">
+    <div></div>
+    <button
+      class="login"
+      style="width: 150px"
+      onclick="$('.nexusTutorial').hide(); localStorage.setItem('nexusTutorial', true)"
+    >
+      Accept
+    </button>
+  </div>
+  </div>
+</div>
+<script>
+  if(localStorage.getItem('nexusTutorial') == 'true'){
+    $('.nexusTutorial').hide()
+  }
+</script>
+
+
 <div class="editor">
   <div id="editor" style="width: 100%; height: 100%">print("Hello world!")</div>
 </div>

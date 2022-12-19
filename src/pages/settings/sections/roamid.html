@@ -1,4 +1,4 @@
-<div class="accountSettings">
+<div class="content fade-in">
   <div class="group flex">
     <h4>Email</h4>
     <h4 id="fbaseEmail"></h4>
@@ -16,18 +16,12 @@
     </p>
   </div>
   <div class="group flex">
-    <h4>Security</h4>
-    <button onclick="restorePassword(auth.currentUser.email, this)">
-      Change Password
-    </button>
-  </div>
-  <div class="group flex">
     <h4>
       Cloud Backup
       <iconify-icon
         inline
         icon="ri:question-line"
-        title="Store a encrypted backup on google servers to never loose your accounts."
+        title="Keep a cloud backup safely so you never lose your accounts."
       ></iconify-icon>
     </h4>
     <div class="checkbox-wrapper-2">
@@ -39,16 +33,18 @@
       />
     </div>
   </div>
-
-  <div class="flex">
-    <button
-      class="alert"
-      style="width: 100px; margin-top: 0px"
-      onclick="logOutFirebase()"
-    >
-      Log out
-    </button>
-  </div>
+</div>
+<div class="flex" style="justify-content: space-between; margin-top: 10px">
+  <button onclick="restorePassword(auth.currentUser.email, this)">
+    Change Password
+  </button>
+  <button
+    class="alert"
+    style="width: 100px; margin-top: 0px"
+    onclick="logOutFirebase()"
+  >
+    Log out
+  </button>
 </div>
 
 <script>

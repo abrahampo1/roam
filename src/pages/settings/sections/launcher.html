@@ -1,0 +1,61 @@
+<div class="content fade-in">
+  <div class="group flex">
+    <h4>Check for updates</h4>
+    <div class="checkbox-wrapper-2">
+      <input
+        type="checkbox"
+        id="checkUpdates"
+        onchange="WriteGlobalSettings('autoupdate', this.checked)"
+        class="sc-gJwTLC ikxBAC"
+      />
+    </div>
+  </div>
+  <div class="group flex">
+    <h4>
+      MultiOpen Delay
+      <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="(miliseconds) The delay beetwen opening a new roblox instance when you open multiple accounts at once (DEFAULT 2000 MS)."
+      ></iconify-icon>
+    </h4>
+    <input
+      type="number"
+      name=""
+      style="width: 15ch"
+      id="launcherDelay"
+      min="0"
+      onchange='localStorage.setItem("launcherDelay", this.value)'
+    />
+  </div>
+  <div class="group flex">
+    <h4>Version</h4>
+    <p id="versionNumber"></p>
+  </div>
+  <div class="group flex">
+    <h4>
+      Current Branch
+      <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="This means the place where the program obtains update data, by default it will use master."
+      ></iconify-icon>
+    </h4>
+    <p id="gitBranch"></p>
+  </div>
+</div>
+
+<script>
+  function loadthings() {
+    $("#launcherDelay").val(localStorage.getItem("launcherDelay") || 2000);
+    $("#checkUpdates").prop("checked", ReadGlobalSettings()["autoupdate"]);
+    $("#gitBranch").text(ReadGlobalSettings()["branch"] || "master");
+
+    ipcRenderer.send("getVersion");
+    ipcRenderer.once("currentVersion", (_, version) => {
+      $("#versionNumber").text(version);
+    });
+  }
+
+  loadthings();
+</script>

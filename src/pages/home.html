@@ -113,17 +113,19 @@
         
         `).on("click", (e) => {
           if (!e.shiftKey) {
-            selectAccount(data.UserID, e.target);
+            console.log(e);
+            selectAccount(data.UserID, e.currentTarget);
           } else {
             if (selectedAccount.indexOf((e) => e.UserID == data.UserID) > -1) {
               selectedAccount = selectedAccount.slice(
                 selectedAccount.indexOf((e) => e.UserID == data.UserID),
                 1
               );
-              e.target.classList.remove("selected");
+
+              $(e).removeClass("selected");
             } else {
               selectedAccount.push(data);
-              e.target.classList.add("selected");
+              $(e).addClass("selected");
             }
             LoadPlaceDetails($("#placeId").val());
           }

@@ -1,0 +1,16 @@
+<div class="mainCard" id="pSettings"></div>
+<div class="infoCard">
+  <div class="infoSection selected" onclick="loadSection('launcher', this)">
+    General Settings
+  </div>
+  <div class="infoSection" onclick="loadSection('roamid', this)">Roam ID</div>
+</div>
+<script>
+  function loadSection(section, el) {
+    $(".infoSection.selected").removeClass("selected");
+    $(el).addClass("selected");
+    $("#pSettings").load("pages/settings/sections/" + section + ".html");
+  }
+
+  $(".infoSection.selected").click();
+</script>

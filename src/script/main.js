@@ -1,6 +1,34 @@
 var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
+const fs = require("fs");
+
+const defaultSettings = {
+  autoupdate: true,
+};
+
+function ReadGlobalSettings() {
+  if (!fs.existsSync(process.env.APPDATA + "/roam/settings.json")) {
+    fs.writeFileSync(
+      process.env.APPDATA + "/roam/settings.json",
+      JSON.stringify(defaultSettings)
+    );
+    return defaultSettings;
+  } else {
+    return JSON.parse(
+      fs.readFileSync(process.env.APPDATA + "/roam/settings.json")
+    );
+  }
+}
+
+function WriteGlobalSettings(setting, value) {
+  let sett = ReadGlobalSettings();
+  sett[setting] = value;
+  fs.writeFileSync(
+    process.env.APPDATA + "/roam/settings.json",
+    JSON.stringify(sett)
+  );
+}
 
 function close_app() {
   ipcRenderer.send("close");
@@ -59,6 +87,7 @@ window.onload = async () => {
   ) {
     $("#preload .modal").fadeOut();
     $("#modalHolder ").load("modals/login/auth.html");
+    $("#fakebackground").fadeOut();
   }
 
   if (
@@ -70,8 +99,10 @@ window.onload = async () => {
       localStorage.getItem("authMail"),
       localStorage.getItem("authPass")
     ).then(() => {
+      cryptoClient = startCrypto();
       setTimeout(() => {
         $("#preload .modal").fadeOut();
+        $("#fakebackground").fadeOut();
       }, 100);
     });
   }
@@ -79,7 +110,10 @@ window.onload = async () => {
   if (localStorage.getItem("useFirebase") == "false") {
     setTimeout(() => {
       $("#preload .modal").fadeOut();
-    }, 100);
+    }, 200);
+    setTimeout(() => {
+      $("#fakebackground").fadeOut();
+    }, 740);
     cryptoClient = startCrypto();
   }
 };
@@ -104,19 +138,6 @@ const isRunning = (query, cb) => {
     cb(stdout.toLowerCase().indexOf(query.toLowerCase()) > -1);
   });
 };
-
-isRunning("multiroblox.exe", (status) => {
-  if (!status) {
-    exec(
-      process.env.APPDATA + "/roam/multiroblox.exe",
-      (error, stdout, stderr) => {
-        if (error) {
-          alert("MULTIROBLOX ERROR, REPORT ON DISCORD: " + error);
-        }
-      }
-    );
-  }
-});
 
 ipcRenderer.on("updateIncoming", () => {
   $("#update").fadeIn("fast");

@@ -4,10 +4,8 @@
   "description": "Roblox Account Manager",
   "main": "index.js",
   "scripts": {
-    "test": "electron .",
-    "rebuild": "./node_modules/.bin/electron-rebuild",
-    "deploy": "node ./config/firebase-deploy.js",
-    "start": "electron ./main.js"
+    "test": "npm install && electron .",
+    "rebuild": "./node_modules/.bin/electron-rebuild"
   },
   "icon": "res/logo.ico",
   "author": "Abrahampo1",
@@ -35,6 +33,7 @@
   "dependencies": {
     "ace-builds": "^1.14.0",
     "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
     "firebase": "^9.15.0",
     "jquery": "^3.6.2",
     "noblox.js": "^4.13.1",

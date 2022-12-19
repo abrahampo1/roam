@@ -47,7 +47,7 @@ nav iconify-icon {
     position: fixed;
     left: 0px;
     top: 0;
-    right: 65px;
+    right: 85px;
     -webkit-app-region: drag;
 }
 
@@ -170,7 +170,6 @@ nav iconify-icon {
     border-radius: 10px;
 }
 
-
 button {
     border: none;
     background: rgb(22, 22, 22);
@@ -284,8 +283,22 @@ input.search {
     z-index: 100;
 }
 
+.modal .ramstep1 h3 a {
+    color: orange;
+    text-decoration: none;
+}
+
 #preload .modal {
     z-index: 1001;
+}
+
+#fakebackground {
+ background-color: var(--primary);
+ height:100%;
+ width:100%;
+ overflow:hidden; /* or overflow:auto; if you want scrollbars */
+ z-index: 1000;
+ position: absolute;
 }
 
 .blinker {
@@ -320,49 +333,78 @@ p.alert {
     border-radius: 5px;
 }
 
-.accountSettings {
+.mainCard {
     width: 60%;
     margin-right: 10px;
     box-sizing: border-box;
 
 }
 
-.accountSettings .content {
+.mainCard .content {
     background-color: var(--primary);
     border-radius: 10px;
     box-sizing: border-box;
     padding: 10px;
 }
 
-.accountSettings .group h4, .accountSettings .group p {
+.mainCard .group h4, .mainCard .group p {
     margin: 0px;
 }
 
-.accountSettings .content .group:last-child {
+.mainCard .content .group:last-child {
     margin: 0px;
 }
 
-.accountSettings .group {
+.nexusTutorial {
+    position: absolute;
+    left: 0px;
+    top: 0px;
     width: 100%;
-    padding: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 100px;
+    box-sizing: border-box;
+    background-color: rgba(41, 41, 41, 0.897);
+}
+
+.mainCard .group {
+    width: 100%;
+    padding: 5px;
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.accountSettings .group input {
+.mainCard .group input {
     width: 250px;
     margin-top: 0px;
 }
 
-.accountSettingsSidebar {
+.infoCard {
     width: 40%;
     box-sizing: border-box;
 }
 
-.accountSettingsSidebar button {
+.infoCard button {
     width: 100%;
+}
+
+.infoSection {
+    width: 100%;
+    background-color: var(--secondary);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+}
+
+.infoSection.selected {
+    background-color: var(--primary);
 }
 
 .infoPanel {
