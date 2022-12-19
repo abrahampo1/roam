@@ -1,3 +1,4 @@
+const { ModuleWalker } = require("@electron/rebuild/lib/src/module-walker");
 var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
@@ -80,7 +81,10 @@ window.onload = async () => {
   if (localStorage.getItem("useFirebase") == "false") {
     setTimeout(() => {
       $("#preload .modal").fadeOut();
-    }, 100);
+    }, 200);
+    setTimeout(() => {
+      $("#fakebackground").fadeOut();
+    }, 740);
     cryptoClient = startCrypto();
   }
 };
