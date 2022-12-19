@@ -288,6 +288,15 @@ input.search {
     z-index: 1001;
 }
 
+#fakebackground {
+ background-color: var(--primary);
+ height:100%;
+ width:100%;
+ overflow:hidden; /* or overflow:auto; if you want scrollbars */
+ z-index: 1000;
+ position: absolute;
+}
+
 .blinker {
     animation-name: blinker;
     animation-iteration-count: infinite;
