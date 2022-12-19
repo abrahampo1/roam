@@ -15,7 +15,6 @@ function AddRobloxAccount() {
 
 async function addRobloxAccountWithCookie(cookie, alias = "") {
   let currentUser = await noblox.setCookie(cookie);
-
   currentUser.cookie = cryptoClient.crypt(cookie);
 
   let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
@@ -87,12 +86,12 @@ function LaunchPlayer(cookie, placeID, follow) {
       a.click();
       setTimeout(() => {
         resolve(link);
-      }, 2500);
+      }, localStorage.getItem("launcherDelay") || 2000);
     });
   });
 }
 
-async function robloxBlock(account, blockUserID) {
+async function blockUser(account, blockUserID) {
   let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
   console.log(`Logged in as ${cuser.UserName} [${cuser.UserID}]`);
   let xcsrf = await noblox.getGeneralToken();
@@ -103,15 +102,31 @@ async function robloxBlock(account, blockUserID) {
   });
 }
 
+function unblockUser(account, userid) {
+  return new Promise((resolve, reject) => {
+    ipcRenderer.send("RobloxRequest", {
+      uid: account.UserID,
+      cookie: cryptoClient.decrypt(account.cookie),
+      url: `https://accountsettings.roblox.com/v1/users/${userid}/unblock`,
+      method: "POST",
+      cb: "userHasBeenUnblocked",
+    });
+
+    ipcRenderer.once("userHasBeenUnblocked", (_, response) => {
+      resolve(response);
+    });
+  });
+}
+
 async function checkRobloxVerified() {
   let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
   Object.entries(saved_users).forEach(([key, r]) => {
-    if(!r.cookie){
-        return
+    if (!r.cookie) {
+      return;
     }
 
-    if(!cryptoClient){
-        return
+    if (!cryptoClient) {
+      return;
     }
     ipcRenderer.send("RobloxRequest", {
       url: "https://accountsettings.roblox.com/v1/email",

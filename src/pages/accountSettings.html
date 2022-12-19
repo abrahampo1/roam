@@ -1,4 +1,4 @@
-<div class="accountSettings">
+<div class="mainCard">
   <div class="flex" style="justify-content:space-between; margin-bottom: 10px;">
     <button onclick="load_page('home')">Back</button>
     <button onclick="deleteAccount()" class="alert" style="width: auto; margin: 0px">Remove account</button>
@@ -23,6 +23,10 @@
       <p id="accountAge"><iconify-icon inline icon="eos-icons:three-dots-loading"></iconify-icon></p>
     </div>
     <div class="group flex">
+      <h4>Blocked Users</h4>
+      <p id="blockedUsers"><iconify-icon inline icon="eos-icons:three-dots-loading"></iconify-icon></p>
+    </div>
+    <div class="group flex">
       <h4>Show Username</h4>
       <div class="checkbox-wrapper-2">
         <input
@@ -38,15 +42,24 @@
 
 </div>
 
-<div class="accountSettingsSidebar">
+<div class="infoCard">
   <div class="content">
+    <button onclick="unBlockUsers(this)">Unblock all users</button>
+
+    <div class="group">
+      <input type="text" id="blockUsername" style="margin-bottom: 5px" placeholder="Player Username...">
+      <button onclick="blockUserByUsername()" id="blockUsernameBtn">Block User</button>
+    </div>
   </div>
   </div>
 
   <script>
-    $(".accountSettings #accountAlias").val(selectedAccount[0].Alias);
-    $(".accountSettings #username").text(selectedAccount[0].UserName);
-    $(".accountSettings #accountShowUsername").prop(
+
+    var BlockedUsers = null
+
+    $(" #accountAlias").val(selectedAccount[0].Alias);
+    $(" #username").text(selectedAccount[0].UserName);
+    $(" #accountShowUsername").prop(
       "checked",
       selectedAccount[0].showUserName
     );
@@ -74,10 +87,96 @@
 
     async function loadRbxAccountDetails(){
       let details = await noblox.getPlayerInfo({userId: selectedAccount[0].UserID});
-      console.log(details)
-      $('.accountSettings #accountAge').html(details.age + ' days')
+      $(' #accountAge').html(details.age + ' days')
+
+      let Blocked = await getBlockedUsers();
+      BlockedUsers = Blocked.blockedUsers
+      $(' #blockedUsers').html(Blocked.total)
     }
 
     loadRbxAccountDetails()
+
+
+
+    function getBlockedUsers(){
+      
+      return new Promise((resolve, reject)=>{
+        ipcRenderer.send('RobloxRequest', {
+          uid: selectedAccount[0].UserID,
+          cookie: cryptoClient.decrypt(selectedAccount[0].cookie),
+          url: "https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users",
+          method: 'GET',
+          cb: 'BlockedUsersResult'
+        })
+
+        ipcRenderer.once('BlockedUsersResult',(_, response)=>{
+          resolve(response)
+        })
+      })
+    }
+
+    async function blockUserByUsername(){
+      let username = $('#blockUsername').val()
+      let prevText = $('#blockUsernameBtn').html()
+      if(username == ''){
+        return
+      }
+      $('#blockUsernameBtn').html('Blocking ' + username)
+      $('#blockUsernameBtn').prop('disabled', true)
+      let destUID = null
+      try {
+         destUID = await noblox.getIdFromUsername(username)
+      }catch(e){
+        return
+      }
+      
+      if(!destUID){
+      $('#blockUsernameBtn').prop('disabled', false)
+        return
+      }
+
+      await blockUser(selectedAccount[0], destUID)
+      $('#blockUsernameBtn').html('User ' + username + ' blocked!')
+      loadRbxAccountDetails()
+      setTimeout(() => {
+      $('#blockUsernameBtn').prop('disabled', false)
+        $('#blockUsernameBtn').html(prevText)
+      }, 3000);
+    }
+
+    var blocking = false;
+    async function unBlockUsers(btn){
+
+      if(blocking){
+        return
+      }
+
+      blocking = true;
+
+      if(!BlockedUsers){return}
+      let btnText = ''
+      if(btn){
+        btnText = $(btn).text();
+          $(btn).html(`<p id="blockedUsers"><iconify-icon inline icon="eos-icons:three-dots-loading"></iconify-icon></p>`)
+        }
+
+      for(key in BlockedUsers){
+        let bUser = BlockedUsers[key];
+        if(btn){
+          $(btn).text('Unblocking ' + bUser.name)
+        }
+        await unblockUser(selectedAccount[0], bUser.userId)
+      }
+
+      if(btn){
+        $(btn).text('All users unblocked!')
+        loadRbxAccountDetails()
+        setTimeout(() => {
+          $(btn).text(btnText)
+          blocking = false
+        }, 3000);
+      }
+
+    }
   </script>
 </div>

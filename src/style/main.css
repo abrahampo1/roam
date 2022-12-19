@@ -329,49 +329,63 @@ p.alert {
     border-radius: 5px;
 }
 
-.accountSettings {
+.mainCard {
     width: 60%;
     margin-right: 10px;
     box-sizing: border-box;
 
 }
 
-.accountSettings .content {
+.mainCard .content {
     background-color: var(--primary);
     border-radius: 10px;
     box-sizing: border-box;
     padding: 10px;
 }
 
-.accountSettings .group h4, .accountSettings .group p {
+.mainCard .group h4, .mainCard .group p {
     margin: 0px;
 }
 
-.accountSettings .content .group:last-child {
+.mainCard .content .group:last-child {
     margin: 0px;
 }
 
-.accountSettings .group {
+.mainCard .group {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.accountSettings .group input {
+.mainCard .group input {
     width: 250px;
     margin-top: 0px;
 }
 
-.accountSettingsSidebar {
+.infoCard {
     width: 40%;
     box-sizing: border-box;
 }
 
-.accountSettingsSidebar button {
+.infoCard button {
     width: 100%;
+}
+
+.infoSection {
+    width: 100%;
+    background-color: var(--secondary);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+}
+
+.infoSection.selected{
+    background-color: var(--primary);
 }
 
 .infoPanel {

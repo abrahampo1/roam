@@ -117,7 +117,7 @@ function functionParser(command, payload) {
     case "blockUser":
       var uid = payload.uid;
       var block = payload.block;
-      robloxBlock(JSON.parse(localStorage.getItem("accounts"))[uid], block);
+      blockUser(JSON.parse(localStorage.getItem("accounts"))[uid], block);
       break;
     default:
       break;
