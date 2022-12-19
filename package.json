@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm install && electron .",
-    "rebuild": "./node_modules/.bin/electron-rebuild"
+    "rebuild": "./node_modules/.bin/electron-rebuild.cmd"
   },
   "icon": "res/logo.ico",
   "author": "Abrahampo1",

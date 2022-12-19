@@ -2,6 +2,7 @@ var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
 const fs = require("fs");
+const { DownloaderHelper } = require("node-downloader-helper");
 
 const defaultSettings = {
   autoupdate: true,
