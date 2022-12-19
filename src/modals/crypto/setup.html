@@ -38,7 +38,7 @@
     let pass = $("#cryptopass").val();
     let passrepeat = $("#cryptopassrepeat").val();
 
-    if (pass == passrepeat) {
+    if (pass == passrepeat && pass.length > 8) {
       cryptoClient.setupCrypto(pass);
     }
   }
