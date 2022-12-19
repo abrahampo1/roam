@@ -130,7 +130,6 @@ async function checkUpdate() {
   }
 }
 
-checkUpdate();
 async function multiRoblox() {
   if (!fs.existsSync(process.env.APPDATA + "/roam")) {
     fs.mkdirSync(process.env.APPDATA + "/roam");
@@ -151,3 +150,40 @@ async function multiRoblox() {
 }
 
 multiRoblox();
+
+//Tricky way to do that btw
+ipcMain.on("getVersion", () => {
+  ContentWindow.webContents.send("currentVersion", app.getVersion());
+});
+
+const defaultSettings = {
+  autoupdate: true,
+  branch: "master",
+};
+
+function ReadGlobalSettings() {
+  if (!fs.existsSync(process.env.APPDATA + "/roam/settings.json")) {
+    fs.writeFileSync(
+      process.env.APPDATA + "/roam/settings.json",
+      JSON.stringify(defaultSettings)
+    );
+    return defaultSettings;
+  } else {
+    return JSON.parse(
+      fs.readFileSync(process.env.APPDATA + "/roam/settings.json")
+    );
+  }
+}
+
+function WriteGlobalSettings(setting, value) {
+  let sett = ReadGlobalSettings();
+  sett[setting] = value;
+  fs.writeFileSync(
+    process.env.APPDATA + "/roam/settings.json",
+    JSON.stringify(sett)
+  );
+}
+
+if (ReadGlobalSettings()["autoupdate"]) {
+  checkUpdate();
+}

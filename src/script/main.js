@@ -1,7 +1,34 @@
 var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
-require("dotenv").config();
+const fs = require("fs");
+
+const defaultSettings = {
+  autoupdate: true,
+};
+
+function ReadGlobalSettings() {
+  if (!fs.existsSync(process.env.APPDATA + "/roam/settings.json")) {
+    fs.writeFileSync(
+      process.env.APPDATA + "/roam/settings.json",
+      JSON.stringify(defaultSettings)
+    );
+    return defaultSettings;
+  } else {
+    return JSON.parse(
+      fs.readFileSync(process.env.APPDATA + "/roam/settings.json")
+    );
+  }
+}
+
+function WriteGlobalSettings(setting, value) {
+  let sett = ReadGlobalSettings();
+  sett[setting] = value;
+  fs.writeFileSync(
+    process.env.APPDATA + "/roam/settings.json",
+    JSON.stringify(sett)
+  );
+}
 
 function close_app() {
   ipcRenderer.send("close");
