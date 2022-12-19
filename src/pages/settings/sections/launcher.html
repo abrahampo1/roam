@@ -5,7 +5,7 @@
       <input
         type="checkbox"
         id="checkUpdates"
-        onchange="process.env.autoUpdate = this.checked"
+        onchange="WriteGlobalSettings('autoupdate', this.checked)"
         class="sc-gJwTLC ikxBAC"
       />
     </div>
@@ -16,7 +16,7 @@
       <iconify-icon
         inline
         icon="ri:question-line"
-        title="The delay beetwen opening a new roblox instance when you open multiple accounts at once (DEFAULT 2000)."
+        title="(miliseconds) The delay beetwen opening a new roblox instance when you open multiple accounts at once (DEFAULT 2000 MS)."
       ></iconify-icon>
     </h4>
     <input
@@ -28,11 +28,33 @@
       onchange='localStorage.setItem("launcherDelay", this.value)'
     />
   </div>
+  <div class="group flex">
+    <h4>Version</h4>
+    <p id="versionNumber"></p>
+  </div>
+  <div class="group flex">
+    <h4>
+      Current Branch
+      <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="This means the place where the program obtains update data, by default it will use master."
+      ></iconify-icon>
+    </h4>
+    <p id="gitBranch"></p>
+  </div>
 </div>
 
 <script>
   function loadthings() {
     $("#launcherDelay").val(localStorage.getItem("launcherDelay") || 2000);
+    $("#checkUpdates").prop("checked", ReadGlobalSettings()["autoupdate"]);
+    $("#gitBranch").text(ReadGlobalSettings()["branch"] || "master");
+
+    ipcRenderer.send("getVersion");
+    ipcRenderer.once("currentVersion", (_, version) => {
+      $("#versionNumber").text(version);
+    });
   }
 
   loadthings();

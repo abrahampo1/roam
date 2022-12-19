@@ -47,7 +47,7 @@ nav iconify-icon {
     position: fixed;
     left: 0px;
     top: 0;
-    right: 65px;
+    right: 85px;
     -webkit-app-region: drag;
 }
 
@@ -363,7 +363,7 @@ p.alert {
     z-index: 100;
     padding: 100px;
     box-sizing: border-box;
-    background-color: rgba(41, 41, 41, 0.76);
+    background-color: rgba(41, 41, 41, 0.897);
 }
 
 .mainCard .group {
