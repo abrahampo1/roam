@@ -145,6 +145,7 @@ nav iconify-icon {
     top: 0px;
     width: 100%;
     height: 100%;
+    z-index: 100;
 }
 
 .gameInfo, .marketInfo {
@@ -232,6 +233,7 @@ input.search {
     box-sizing: border-box;
     overflow-y: auto;
     padding-left: 1px;
+    padding-top: 1px;
 }
 
 .userList .user {
