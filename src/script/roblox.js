@@ -166,4 +166,4 @@ setInterval(async () => {
     }
     $(".game #join").fadeOut("fast");
   }
-}, localStorage.getItem("autolauncherDelay"));
+}, localStorage.getItem("autolauncherDelay") || 120000);
