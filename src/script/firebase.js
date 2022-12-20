@@ -38,19 +38,56 @@ function firebaseLogin(email, password) {
   return new Promise((resolve, reject) => {
     setPersistence(auth, browserLocalPersistence).then(() => {
       signInWithEmailAndPassword(auth, email, password)
-        .then((uc) => {
+        .then(async (uc) => {
           localStorage.setItem("authPass", password);
           localStorage.setItem("authMail", email);
           $("#modalHolder").html("");
           localStorage.setItem("useFirebase", true);
-          cryptoClient = startCrypto();
-          backupAccounts();
 
-          if (typeof lpage === "function") {
-            lpage();
+          let cloudBackup = await getCloudAccounts();
+          console.log(cloudBackup);
+          if (cloudBackup.rbxAccounts && !localStorage.getItem("accounts")) {
+            $("#fakebackground").fadeOut();
+            $("#preload").fadeOut();
+
+            $("#modalHolder").load("modals/login/restorebackup.html", () => {
+              $("#backupAccounts").text(
+                Object.values(cloudBackup.rbxAccounts).length
+              );
+              let d = new Date(cloudBackup.backupTime);
+              $("#backupDate").text(
+                d.getUTCDay() +
+                  "/" +
+                  (d.getMonth() + 1) +
+                  "/" +
+                  d.getFullYear() +
+                  " " +
+                  d.getHours() +
+                  ":" +
+                  (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes())
+              );
+
+              $("#UseBackup").on("click", () => {
+                localStorage.setItem(
+                  "accounts",
+                  JSON.stringify(cloudBackup.rbxAccounts)
+                );
+                cryptoClient = startCrypto();
+                resolve(true);
+              });
+              $("#SkipBackup").on("click", () => {
+                cryptoClient = startCrypto();
+                resolve(true);
+              });
+            });
+          } else {
+            if (typeof lpage === "function") {
+              lpage();
+            }
+            cryptoClient = startCrypto();
+            backupAccounts();
+            resolve(true);
           }
-
-          resolve(true);
         })
         .catch(() => {
           $("#userpass").addClass("shake-horizontal");
@@ -131,4 +168,6 @@ async function getCloudAccounts() {
   Object.entries(cloudAcc.rbxAccounts).forEach(([key, element]) => {
     $("#userCard-" + element.UserID + " .cloud").fadeIn("fast");
   });
+
+  return cloudAcc;
 }
