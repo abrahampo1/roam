@@ -145,27 +145,33 @@ async function checkRobloxVerified() {
     $("#userCard-" + data.uid + " .mail").attr("title", data.emailAddress);
   });
 }
-
-setInterval(async () => {
-  if (localStorage.getItem("autorelaunch") == "true") {
-    console.log("Trggering auto relaunch");
-    await exec("taskkill /F /IM RobloxPlayerBeta.exe");
-    setTimeout(async () => {
-      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-
-      for (key in Object.values(saved_users)) {
-        let a = Object.values(saved_users)[key];
-        $(".game #join").fadeIn("fast");
-        if (a.relaunch) {
-          console.log("launching: " + a.UserName);
-          await LaunchPlayer(
-            cryptoClient.decrypt(a.cookie),
-            selectedPlaceID,
-            $("#followPlayer").val()
-          );
+localStorage.setItem("autorelaunch", "false");
+setInterval(
+  async () => {
+    if (localStorage.getItem("autorelaunch") == "true") {
+      console.log("Trggering auto relaunch");
+      await exec("taskkill /F /IM RobloxPlayerBeta.exe");
+      setTimeout(async () => {
+        if (localStorage.getItem("autorelaunch") == "false") {
+          return;
         }
-      }
-      $(".game #join").fadeOut("fast");
-    }, localStorage.getItem("launcherDelay") || 2000);
-  }
-}, localStorage.getItem("autolauncherDelay") || 120000);
+        let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+
+        for (key in Object.values(saved_users)) {
+          let a = Object.values(saved_users)[key];
+          $(".game #join").fadeIn("fast");
+          if (a.relaunch) {
+            console.log("launching: " + a.UserName);
+            await LaunchPlayer(
+              cryptoClient.decrypt(a.cookie),
+              selectedPlaceID,
+              $("#followPlayer").val()
+            );
+          }
+        }
+        $(".game #join").fadeOut("fast");
+      }, localStorage.getItem("launcherDelay") || 2000);
+    }
+  },
+  parseInt(localStorage.getItem("autolauncherDelay")) || 120000 + parseInt(localStorage.getItem("launcherDelay")) || 2000
+);
