@@ -52,6 +52,21 @@
         />
       </div>
     </div>
+    <div class="group flex">
+      <h4>Relaunch Account <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="Still appear when you search it."
+      ></iconify-icon></h4>
+      <div class="checkbox-wrapper-2">
+        <input
+          type="checkbox"
+          id="relaunchAccount"
+          onchange="setRelaunchAccount(this.checked)"
+          class="sc-gJwTLC ikxBAC"
+        />
+      </div>
+    </div>
   </div>
 
 
@@ -82,7 +97,10 @@
       "checked",
       selectedAccount[0].hide
     );
-
+    $(" #relaunchAccount").prop(
+      "checked",
+      selectedAccount[0].relaunch
+    );
     function setCustomAlias(alias) {
       selectedAccount[0].Alias = alias;
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
@@ -99,6 +117,13 @@
 
     function setHideAccount(show) {
       selectedAccount[0].hide = show;
+      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+      saved_users[selectedAccount[0].UserID] = selectedAccount[0];
+      localStorage.setItem("accounts", JSON.stringify(saved_users));
+    }
+
+    function setRelaunchAccount(show) {
+      selectedAccount[0].relaunch = show;
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
       saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
