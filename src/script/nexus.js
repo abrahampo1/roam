@@ -48,11 +48,11 @@ wss.on("connection", (ws, req) => {
 
     if (command.Payload) {
       functionParser(command.Name, command.Payload.Content);
-      $(".nexus .logs").append(
-        `<p style="margin:0">[${urldata.searchParams.get(
-          "name"
-        )}]> ${JSON.stringify(command.Payload.Content)}</p>`
+      let p = $(
+        `<p style="margin:0"> </p>`
       );
+      $(p).text(`[${urldata.searchParams.get("name")}]>`+JSON.stringify(command.Payload.Content));
+      $(".nexus .logs").append(p);
       $(".nexus").animate({ scrollTop: 9999 });
     }
   });
