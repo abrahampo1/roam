@@ -57,6 +57,24 @@
   </div>
 
   <div style="width: 100%">
+    <div class="flex" style="justify-content: space-between">
+      <h4 style="margin: 0">
+        Auto Relaunch
+        <iconify-icon
+          inline
+          icon="ri:question-line"
+          title="Close and open roblox with the last account launched (time can be set on settings)."
+        ></iconify-icon>
+      </h4>
+      <div class="checkbox-wrapper-2">
+        <input
+          type="checkbox"
+          id="autorelaunchAccount"
+          onchange="localStorage.setItem('autorelaunch', this.checked)"
+          class="sc-gJwTLC ikxBAC"
+        />
+      </div>
+    </div>
     <input type="text" id="followPlayer" placeholder="Follow Player" />
     <button class="play" onclick="LaunchAccount()">
       <iconify-icon inline icon="ic:round-play-arrow"></iconify-icon>
@@ -65,6 +83,8 @@
 </div>
 
 <script>
+
+  $('#autorelaunchAccount').prop('checked', localStorage.getItem("autorelaunch") == "true");
   function LoadAccounts(query) {
     if (!localStorage.getItem("accounts")) {
       $(".tutorial").fadeIn();
@@ -108,14 +128,20 @@
         <p class="secondary">${data.Alias || ""}</p>
       </div>
       <div class="actions">
+        <iconify-icon icon="material-symbols:mail-lock-outline" style="margin-right: 5px; display: none" title="This Account is mail verified" class="mail"></iconify-icon>
+        <iconify-icon icon="fluent:connected-16-filled" title="Nexus Connected on this Account" style="margin-right: 5px; display: none" class="nexus"></iconify-icon>
+        <iconify-icon icon="material-symbols:cloud-done-outline-rounded" title="This Account have a cloud backup" style="margin-right: 5px; display: none" class="cloud"></iconify-icon>
         ${
           data.hide
             ? '<iconify-icon icon="bxs:hide" style="margin-right: 5px;" title="This Account is hidden"></iconify-icon>'
             : ""
         }
-        <iconify-icon icon="material-symbols:mail-lock-outline" style="margin-right: 5px; display: none" title="This Account is mail verified" class="mail"></iconify-icon>
-        <iconify-icon icon="fluent:connected-16-filled" title="Nexus Connected on this Account" style="margin-right: 5px; display: none" class="nexus"></iconify-icon>
-        <iconify-icon icon="material-symbols:cloud-done-outline-rounded" title="This Account have a cloud backup" style="margin-right: 5px; display: none" class="cloud"></iconify-icon>
+        ${
+          data.relaunch
+            ? '<iconify-icon icon="material-symbols:rocket-launch" style="color:red; margin-right: 5px;" title="This Account have relaunch activated"></iconify-icon>'
+            : ""
+        }
+        
         <iconify-icon icon="material-symbols:settings" title="Account Settings" onclick="load_page('accountSettings')"></iconify-icon>
       </div>
     </div>

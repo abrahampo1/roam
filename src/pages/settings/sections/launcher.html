@@ -10,24 +10,7 @@
       />
     </div>
   </div>
-  <div class="group flex">
-    <h4>
-      MultiOpen Delay
-      <iconify-icon
-        inline
-        icon="ri:question-line"
-        title="(miliseconds) The delay beetwen opening a new roblox instance when you open multiple accounts at once (DEFAULT 2000 MS)."
-      ></iconify-icon>
-    </h4>
-    <input
-      type="number"
-      name=""
-      style="width: 15ch"
-      id="launcherDelay"
-      min="0"
-      onchange='localStorage.setItem("launcherDelay", this.value)'
-    />
-  </div>
+  
   <div class="group flex">
     <h4>Version</h4>
     <p id="versionNumber"></p>
@@ -62,9 +45,49 @@
   </div>
 </div>
 
+<div style="margin-top: 10px;" class="content">
+  <div class="group flex">
+    <h4>
+      MultiOpen Delay
+      <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="(miliseconds) The delay beetwen opening a new roblox instance when you open multiple accounts at once (DEFAULT 2000 MS)."
+      ></iconify-icon>
+    </h4>
+    <input
+      type="number"
+      name=""
+      style="width: 15ch"
+      id="launcherDelay"
+      min="0"
+      onchange='localStorage.setItem("launcherDelay", this.value)'
+    />
+  </div>
+  <div class="group flex">
+    <h4>
+      Auto Relaunch Interval
+      <iconify-icon
+        inline
+        icon="ri:question-line"
+        title="(miliseconds) The delay beetwen opening a new roblox instance when you open multiple accounts at once (DEFAULT 2000 MS)."
+      ></iconify-icon>
+    </h4>
+    <input
+      type="number"
+      name=""
+      style="width: 15ch"
+      id="autolauncherDelay"
+      min="0"
+      onchange='localStorage.setItem("autolauncherDelay", this.value)'
+    />
+  </div>
+</div>
+
 <script>
   function loadthings() {
     $("#launcherDelay").val(localStorage.getItem("launcherDelay") || 2000);
+    $("#autolauncherDelay").val(localStorage.getItem("autolauncherDelay") || 120000);
     $("#checkUpdates").prop("checked", ReadGlobalSettings()["autoupdate"]);
     $("#closeRobloxBeta").prop("checked", ReadGlobalSettings()["robloxbeta"]);
     $("#gitBranch").text(ReadGlobalSettings()["branch"] || "master");
