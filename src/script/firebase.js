@@ -96,7 +96,14 @@ function noUseFirebase() {
 
 function firebaseCreate(mail, pass, reppass) {
   if (pass != reppass) {
-    alert("Passwords must match");
+    $("#createuserpass").val("");
+    $("#createuserpassrepeat").val("");
+    $("#createuserpass").addClass("shake-horizontal");
+
+    setTimeout(() => {
+      $("#createuserpass").removeClass("shake-horizontal");
+    }, 500);
+
     return;
   }
   createUserWithEmailAndPassword(auth, mail, pass)
