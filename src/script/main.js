@@ -80,6 +80,7 @@ function copyText(text, icon) {
 }
 
 window.onload = async () => {
+  log("info", "Roam Loaded");
   //First Load Account
   if (
     (!localStorage.getItem("useFirebase") ||
@@ -143,3 +144,15 @@ const isRunning = (query, cb) => {
 ipcRenderer.on("updateIncoming", () => {
   $("#update").fadeIn("fast");
 });
+
+function log(type, message) {
+  let logs = JSON.parse(localStorage.getItem("logs")) || [];
+
+  logs.push({
+    type: type,
+    message: message,
+    date: Date.now(),
+  });
+
+  localStorage.setItem("logs", JSON.stringify(logs));
+}

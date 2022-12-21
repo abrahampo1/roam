@@ -1,0 +1,48 @@
+<div id="logs"></div>
+
+<script>
+  function loadLogs() {
+    let logs = JSON.parse(localStorage.getItem("logs")) || [];
+    $("#logs").html("");
+    for (const iterator of logs) {
+      let icon = "material-symbols:info-outline";
+
+      switch (iterator.type) {
+        case "info":
+          icon = "material-symbols:info-outline";
+          break;
+        case "launch":
+          icon = "material-symbols:rocket-launch-outline";
+          break;
+        case "network":
+          icon = "mdi:local-area-network";
+          break;
+        default:
+          break;
+      }
+      let d = new Date(iterator.date);
+
+      $("#logs").prepend(`
+
+            <div class="log">
+    <div class="flex" style="justify-content: space-between">
+      <div class="flex">
+        <iconify-icon
+          icon="${icon}"
+          style="margin-right: 10px"
+        ></iconify-icon>
+        <p>${iterator.message}</p>
+      </div>
+      <p class="date">${
+        d.toLocaleDateString() + " " + d.toLocaleTimeString()
+      }</p>
+    </div>
+  </div>
+
+
+            `);
+    }
+  }
+
+  loadLogs();
+</script>

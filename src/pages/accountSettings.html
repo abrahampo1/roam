@@ -103,6 +103,7 @@
     );
     function setCustomAlias(alias) {
       selectedAccount[0].Alias = alias;
+      log('info', "Setting alias (" + alias + ") to " + selectedAccount[0].UserName)
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
       saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
@@ -110,6 +111,7 @@
 
     function setShowUsername(show) {
       selectedAccount[0].showUserName = show;
+      log('info', "Setting Show Username (" + show + ") to " + selectedAccount[0].UserName)
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
       saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
@@ -117,6 +119,7 @@
 
     function setHideAccount(show) {
       selectedAccount[0].hide = show;
+      log('info', "Setting Show Account (" + show + ") to " + selectedAccount[0].UserName)
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
       saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
@@ -124,12 +127,14 @@
 
     function setRelaunchAccount(show) {
       selectedAccount[0].relaunch = show;
+      log('info', "Setting Relaunch Account (" + show + ") to " + selectedAccount[0].UserName)
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
       saved_users[selectedAccount[0].UserID] = selectedAccount[0];
       localStorage.setItem("accounts", JSON.stringify(saved_users));
     }
 
     function deleteAccount(){
+        log('info', "Deleted " + selectedAccount[0].UserName)
         let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
         delete saved_users[selectedAccount[0].UserID];
         localStorage.setItem("accounts", JSON.stringify(saved_users));
@@ -169,6 +174,7 @@
     async function blockUserByUsername(){
       let username = $('#blockUsername').val()
       let prevText = $('#blockUsernameBtn').html()
+      log('info', "Blocking "+ username +" with " + selectedAccount[0].UserName)
       if(username == ''){
         return
       }
@@ -215,6 +221,7 @@
         let bUser = BlockedUsers[key];
         if(btn){
           $(btn).text('Unblocking ' + bUser.name)
+          log('info', "Unblocking "+ bUser.name +" with " + selectedAccount[0].UserName)
         }
         await unblockUser(selectedAccount[0], bUser.userId)
       }
