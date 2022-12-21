@@ -1,0 +1,20 @@
+<div class="modal">
+  <div style="text-align: center">
+    <iconify-icon
+      style="font-size: 70px"
+      icon="ic:outline-cloud-download"
+    ></iconify-icon>
+    <h1>This account have a Cloud Backup</h1>
+    <h3>The backup have <span id="backupAccounts"></span> accounts</h3>
+    <p>
+      <span id="backupDate"></span>
+    </p>
+    <p class="alert">Setup the same crypto password to restore the accounts</p>
+  </div>
+  <div class="ramactions flex" style="justify-content: space-between">
+    <button class="login" style="width: 100px" id="SkipBackup">Skip</button>
+    <button class="login" style="width: 150px" id="UseBackup">
+      Restore Backup
+    </button>
+  </div>
+</div>

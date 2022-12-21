@@ -799,3 +799,24 @@ button.dark {
         opacity: 1;
     }
 }
+
+.log {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--secondary);
+    margin-bottom: 5px;
+}
+
+#logs {
+    width: 100%;
+    padding-right: 10px;
+}
+
+.log p {
+    margin: 0;
+}
+
+.log p.date{
+    color: rgb(182, 182, 182);
+}

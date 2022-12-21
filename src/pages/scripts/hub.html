@@ -1,0 +1,66 @@
+<div style="width: 100%">
+  <div class="flex" style="align-items: center">
+    <input
+      type="text"
+      id="repositoryUrl"
+      style="margin: 0"
+      placeholder="Repository URL..."
+    />
+    <button
+      class="login"
+      style="
+        height: 100%;
+        width: 40px;
+        margin: 0;
+        padding: 7px;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <iconify-icon
+        icon="material-symbols:add"
+        style="color: black; font-size: 20px"
+      ></iconify-icon>
+    </button>
+  </div>
+  <div class="repos" id="repos"></div>
+</div>
+
+<script>
+  function addRepo() {
+    let repos = JSON.parse(localStorage.getItem("repos")) || [];
+    let repo = $("#repositoryUrl").val().split("/");
+    if (repo[3] && repo[4]) {
+      repos.push(`https://api.github.com/repos/${repo[3]}/${repo[4]}/contents`);
+      localStorage.setItem("repos", JSON.stringify(repos));
+    }
+  }
+
+  async function loadRepos() {
+    let repos = JSON.parse(localStorage.getItem("repos")) || [];
+    for (const iterator of repos) {
+      let r = await $.getJSON(iterator);
+      console.log(r);
+      let man = r.find((d) => d.name == "manifest.json");
+      console.log(man);
+      if (r.find((d) => d.name == "script.lua") && man) {
+        man = await $.getJSON(man.download_url);
+        console.log(man);
+        console.log("Repo Valid");
+        $("#repos").append(`
+        <div class="repo">
+      <h2>${man.name}</h2>
+      <div class="flex">
+        <div class="card">
+          <p>script 1</p>
+        </div>
+      </div>
+    </div>
+        `);
+      }
+    }
+  }
+  loadRepos();
+</script>

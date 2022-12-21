@@ -28,6 +28,10 @@ async function addRobloxAccountWithCookie(cookie, alias = "") {
 }
 
 async function LoadPlaceDetails(placeID) {
+  if (!placeID) {
+    return;
+  }
+
   let universeId = await webGet(
     `https://apis.roblox.com/universes/v1/places/${placeID}/universe`
   );
@@ -52,6 +56,7 @@ async function LoadPlaceDetails(placeID) {
 
   placeDetails.thumbnail = thumbnail;
 
+  log("network", "Loaded Place Details (" + placeID + ")");
   $(".gameInfo #gameTitle").text(placeDetails.name);
   $(".gameInfo #gamePlayers").text(placeDetails.playing);
   $(".gameInfo #gameThumbnail").attr("src", placeDetails.thumbnail);
@@ -63,6 +68,7 @@ async function LaunchAccount() {
   for (key in selectedAccount) {
     let a = selectedAccount[key];
     $(".game #join").fadeIn("fast");
+    log("launch", a.UserName + " has been launched to " + selectedPlaceID);
     await LaunchPlayer(
       cryptoClient.decrypt(a.cookie),
       selectedPlaceID,
@@ -145,12 +151,15 @@ async function checkRobloxVerified() {
     $("#userCard-" + data.uid + " .mail").attr("title", data.emailAddress);
   });
 }
-
+localStorage.setItem("autorelaunch", "false");
 setInterval(async () => {
   if (localStorage.getItem("autorelaunch") == "true") {
     console.log("Trggering auto relaunch");
     await exec("taskkill /F /IM RobloxPlayerBeta.exe");
     setTimeout(async () => {
+      if (localStorage.getItem("autorelaunch") == "false") {
+        return;
+      }
       let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
 
       for (key in Object.values(saved_users)) {
@@ -168,4 +177,4 @@ setInterval(async () => {
       $(".game #join").fadeOut("fast");
     }, localStorage.getItem("launcherDelay") || 2000);
   }
-}, localStorage.getItem("autolauncherDelay") || 120000);
+}, parseInt(localStorage.getItem("autolauncherDelay")) || 120000 + parseInt(localStorage.getItem("launcherDelay")) || 2000);
