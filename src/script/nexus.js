@@ -6,6 +6,8 @@ var NexusStart = true;
 let Nexus = {};
 let NexusAccounts = [];
 let NexusSelected = [];
+let NexusProcesses = {};
+let NexusID = 0;
 
 setTimeout(() => {
   NexusStart = false;
@@ -37,7 +39,6 @@ wss.on("connection", (ws, req) => {
 
   ws.on("message", (data) => {
     $("#userCard-" + urldata.searchParams.get("id") + " .nexus").fadeIn();
-
     NexusSelected.forEach((element) => {
       if (urldata.searchParams.get("id") == element.id) {
         $(".nexus").removeClass("block");
@@ -47,11 +48,20 @@ wss.on("connection", (ws, req) => {
     let command = JSON.parse(data);
 
     if (command.Payload) {
+      if (NexusProcesses["n" + command.Name]) {
+        NexusProcesses["n" + command.Name](
+          command.Payload.Content,
+          urldata.searchParams.get("id")
+        );
+        return;
+      }
+
       functionParser(command.Name, command.Payload.Content);
-      let p = $(
-        `<p style="margin:0"> </p>`
+      let p = $(`<p style="margin:0"> </p>`);
+      $(p).text(
+        `[${urldata.searchParams.get("name")}]>` +
+          JSON.stringify(command.Payload.Content)
       );
-      $(p).text(`[${urldata.searchParams.get("name")}]>`+JSON.stringify(command.Payload.Content));
       $(".nexus .logs").append(p);
       $(".nexus").animate({ scrollTop: 9999 });
     }
@@ -71,25 +81,48 @@ wss.on("connection", (ws, req) => {
   }
 });
 
-function executeNexus(code) {
-  if (NexusAccounts.length == 0) {
-    return;
-  }
-  if (NexusSelected.length == 0) {
-    Nexus[NexusAccounts[0].id].send("execute " + code);
-  } else {
-    NexusSelected.forEach((uid) => {
-      Nexus[uid.id].send("execute " + code);
-    });
-  }
+function executeNexus(code, id) {
+  return new Promise(function (resolve, reject) {
+    code = "local nid = '" + NexusID + "';" + code;
+    if (NexusAccounts.length == 0) {
+      return;
+    }
+    if (id) {
+      Nexus[id].send("execute " + code);
+      NexusProcesses["n" + NexusID] = function (data, id) {
+        data = JSON.parse(data);
+        data.id = id;
+        resolve(data);
+      };
+    } else if (NexusSelected.length == 0) {
+      Nexus[NexusAccounts[0].id].send("execute " + code);
+      NexusProcesses["n" + NexusID] = function (data, id) {
+        data = JSON.parse(data);
+        data.id = id;
+        resolve(data);
+      };
+    } else {
+      NexusSelected.forEach((uid) => {
+        Nexus[uid.id].send("execute " + code);
+        NexusProcesses["n" + NexusID] = function (data, id) {
+          data = JSON.parse(data);
+          data.id = id;
+          resolve(data);
+        };
+      });
+    }
+    NexusID++;
+  });
 }
 
 function functionParser(command, payload) {
-  console.log(command, payload);
   switch (command) {
     case "alert":
       alert(payload);
       break;
+    case "execute":
+      executeNexus(editor.getValue())
+    break;
     case "notify":
       notifier.notify({
         title: "Nexus",
