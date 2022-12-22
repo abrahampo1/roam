@@ -8,7 +8,8 @@ function AddRobloxAccount() {
   return new Promise((resolve, reject) => {
     ipcRenderer.send("AddRobloxAccount");
     ipcRenderer.on("RobloxAccountCookie", async (sender, data) => {
-      visitor.event("Account", "Added").send();
+      logEvent(analytics, "account_added");
+
       addRobloxAccountWithCookie(data);
     });
   });
@@ -70,7 +71,8 @@ async function LaunchAccount() {
     let a = selectedAccount[key];
     $(".game #join").fadeIn("fast");
     log("launch", a.UserName + " has been launched to " + selectedPlaceID);
-    visitor.event("Account", "Launch").send();
+    logEvent(analytics, "game_launch", { placeId: selectedPlaceID });
+
     await LaunchPlayer(
       cryptoClient.decrypt(a.cookie),
       selectedPlaceID,
@@ -100,7 +102,7 @@ function LaunchPlayer(cookie, placeID, follow) {
 }
 
 async function blockUser(account, blockUserID) {
-  visitor.event("Account", "Block User").send();
+  logEvent(analytics, "block_user");
   let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
   console.log(`Logged in as ${cuser.UserName} [${cuser.UserID}]`);
   let xcsrf = await noblox.getGeneralToken();
@@ -112,7 +114,7 @@ async function blockUser(account, blockUserID) {
 }
 
 function unblockUser(account, userid) {
-  visitor.event("Account", "Unblock User").send();
+  logEvent(analytics, "unblock_user");
   return new Promise((resolve, reject) => {
     ipcRenderer.send("RobloxRequest", {
       uid: account.UserID,

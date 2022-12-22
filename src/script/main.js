@@ -3,8 +3,6 @@ window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
 const fs = require("fs");
 const os = require("os");
-var ua = require("universal-analytics");
-var visitor = ua("UA-170182580-1", os.userInfo().uid);
 const { DownloaderHelper } = require("node-downloader-helper");
 
 const defaultSettings = {
@@ -43,7 +41,7 @@ function minimize_app() {
 }
 
 function load_page(page) {
-  visitor.pageview("pages/" + page, function (err) {});
+  logEvent(analytics, "page_load", { name: page });
   $("#app").load("pages/" + page + ".html");
   $("#app").addClass("fade-in");
   $("#app").on("animationend", () => {
@@ -85,7 +83,7 @@ function copyText(text, icon) {
 
 window.onload = async () => {
   log("info", "Roam Loaded");
-  visitor.event("App", "Loaded").send();
+  logEvent(analytics, 'App Loaded');
   //First Load Account
   if (
     (!localStorage.getItem("useFirebase") ||

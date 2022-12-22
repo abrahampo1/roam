@@ -4,6 +4,7 @@ const { exec } = require("child_process");
 const axios = require("axios");
 const os = require("os");
 const fs = require("fs");
+const path = require("path");
 const { DownloaderHelper } = require("node-downloader-helper");
 var http = require("http");
 
@@ -26,7 +27,7 @@ function createWindow() {
     },
   });
   mainWindow.setIcon(__dirname + "/res/logo.ico");
-  mainWindow.loadFile("src/index.html");
+  mainWindow.loadURL("http://localhost:9000");
 
   ipcMain.on("close", () => {
     exec(`taskkill /F /IM multiroblox.exe`);
@@ -38,10 +39,6 @@ function createWindow() {
 
   return mainWindow;
 }
-
-app.whenReady().then(() => {
-  ContentWindow = createWindow();
-});
 
 ipcMain.on("AddRobloxAccount", () => {
   let accountWindow = new BrowserWindow({
@@ -187,3 +184,16 @@ function WriteGlobalSettings(setting, value) {
 if (ReadGlobalSettings()["autoupdate"]) {
   checkUpdate();
 }
+
+const express = require("express");
+const Webapp = express();
+const port = 9000;
+
+const apppath = path.join(__dirname, "src");
+Webapp.use(express.static(apppath));
+
+app.whenReady().then(() => {
+  Webapp.listen(port, () => {
+    ContentWindow = createWindow();
+  });
+});
