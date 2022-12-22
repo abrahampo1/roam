@@ -115,6 +115,12 @@
         data.UserName = "";
       }
 
+      if (data.showAge == false) {
+        data.ageNumber = "";
+      } else{
+        data.ageNumber = "Age:" + data.ageNumber;
+      }
+
       if (!query && data.hide) {
         return;
       }
@@ -126,6 +132,7 @@
       <div class="flex">
         <p class="primary">${data.UserName}</p>
         <p class="secondary">${data.Alias || ""}</p>
+        <p class="secondary">${data.ageNumber}</p>
       </div>
       <div class="actions">
         <iconify-icon icon="material-symbols:mail-lock-outline" style="margin-right: 5px; display: none" title="This Account is mail verified" class="mail"></iconify-icon>

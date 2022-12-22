@@ -2,7 +2,7 @@
   <div class="flex" style="justify-content:space-between; margin-bottom: 10px;">
     <button onclick="load_page('home')">Back</button>
     <button onclick="deleteAccount()" class="alert" style="width: auto; margin: 0px">Remove account</button>
-</div>
+  </div>
   <div class="content">
     <div class="group flex">
       <h4>Account Name</h4>
@@ -10,13 +10,8 @@
     </div>
     <div class="group flex">
       <h4>Alias</h4>
-      <input
-        type="text"
-        style="width: 30ch;"
-        id="accountAlias"
-        placeholder="Custom Alias..."
-        onchange="setCustomAlias(this.value)"
-      />
+      <input type="text" style="width: 30ch;" id="accountAlias" placeholder="Custom Alias..."
+        onchange="setCustomAlias(this.value)" />
     </div>
     <div class="group flex">
       <h4>Account Age</h4>
@@ -29,42 +24,30 @@
     <div class="group flex">
       <h4>Show Username</h4>
       <div class="checkbox-wrapper-2">
-        <input
-          type="checkbox"
-          id="accountShowUsername"
-          onchange="setShowUsername(this.checked)"
-          class="sc-gJwTLC ikxBAC"
-        />
+        <input type="checkbox" id="accountShowUsername" onchange="setShowUsername(this.checked)"
+          class="sc-gJwTLC ikxBAC" />
       </div>
     </div>
     <div class="group flex">
-      <h4>Hide Account <iconify-icon
-        inline
-        icon="ri:question-line"
-        title="Still appear when you search it."
-      ></iconify-icon></h4>
+      <h4>Show Account Age</h4>
       <div class="checkbox-wrapper-2">
-        <input
-          type="checkbox"
-          id="hideAccount"
-          onchange="setHideAccount(this.checked)"
-          class="sc-gJwTLC ikxBAC"
-        />
+        <input type="checkbox" id="accountShowAge" onchange="setShowAge(this.checked)"
+          class="sc-gJwTLC ikxBAC" />
       </div>
     </div>
     <div class="group flex">
-      <h4>Relaunch Account <iconify-icon
-        inline
-        icon="ri:question-line"
-        title="Still appear when you search it."
-      ></iconify-icon></h4>
+      <h4>Hide Account <iconify-icon inline icon="ri:question-line"
+          title="Still appear when you search it."></iconify-icon></h4>
       <div class="checkbox-wrapper-2">
-        <input
-          type="checkbox"
-          id="relaunchAccount"
-          onchange="setRelaunchAccount(this.checked)"
-          class="sc-gJwTLC ikxBAC"
-        />
+        <input type="checkbox" id="hideAccount" onchange="setHideAccount(this.checked)" class="sc-gJwTLC ikxBAC" />
+      </div>
+    </div>
+    <div class="group flex">
+      <h4>Relaunch Account <iconify-icon inline icon="ri:question-line"
+          title="Still appear when you search it."></iconify-icon></h4>
+      <div class="checkbox-wrapper-2">
+        <input type="checkbox" id="relaunchAccount" onchange="setRelaunchAccount(this.checked)"
+          class="sc-gJwTLC ikxBAC" />
       </div>
     </div>
   </div>
@@ -81,160 +64,181 @@
       <button onclick="blockUserByUsername()" id="blockUsernameBtn">Block User</button>
     </div>
   </div>
-  </div>
+</div>
 
-  <script>
+<script>
 
-    var BlockedUsers = null
+  var BlockedUsers = null
 
-    $(" #accountAlias").val(selectedAccount[0].Alias);
-    $(" #username").text(selectedAccount[0].UserName);
-    $(" #accountShowUsername").prop(
-      "checked",
-      selectedAccount[0].showUserName
-    );
-    $(" #hideAccount").prop(
-      "checked",
-      selectedAccount[0].hide
-    );
-    $(" #relaunchAccount").prop(
-      "checked",
-      selectedAccount[0].relaunch
-    );
-    function setCustomAlias(alias) {
-      selectedAccount[0].Alias = alias;
-      log('info', "Setting alias (" + alias + ") to " + selectedAccount[0].UserName)
-      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-      saved_users[selectedAccount[0].UserID] = selectedAccount[0];
-      localStorage.setItem("accounts", JSON.stringify(saved_users));
-    }
+  $(" #accountAlias").val(selectedAccount[0].Alias);
+  $(" #username").text(selectedAccount[0].UserName);
+  $(" #accountShowUsername").prop(
+    "checked",
+    selectedAccount[0].showUserName
+  );
+  $(" #accountShowAge").prop(
+    "checked",
+    selectedAccount[0].showAge
+  )
+  $(" #hideAccount").prop(
+    "checked",
+    selectedAccount[0].hide
+  );
+  $(" #relaunchAccount").prop(
+    "checked",
+    selectedAccount[0].relaunch
+  );
+  function setCustomAlias(alias) {
+    selectedAccount[0].Alias = alias;
+    log('info', "Setting alias (" + alias + ") to " + selectedAccount[0].UserName)
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    saved_users[selectedAccount[0].UserID] = selectedAccount[0];
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+  }
 
-    function setShowUsername(show) {
-      selectedAccount[0].showUserName = show;
-      log('info', "Setting Show Username (" + show + ") to " + selectedAccount[0].UserName)
-      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-      saved_users[selectedAccount[0].UserID] = selectedAccount[0];
-      localStorage.setItem("accounts", JSON.stringify(saved_users));
-    }
+  function setShowUsername(show) {
+    selectedAccount[0].showUserName = show;
+    log('info', "Setting Show Username (" + show + ") to " + selectedAccount[0].UserName)
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    saved_users[selectedAccount[0].UserID] = selectedAccount[0];
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+  }
 
-    function setHideAccount(show) {
-      selectedAccount[0].hide = show;
-      log('info', "Setting Show Account (" + show + ") to " + selectedAccount[0].UserName)
-      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-      saved_users[selectedAccount[0].UserID] = selectedAccount[0];
-      localStorage.setItem("accounts", JSON.stringify(saved_users));
-    }
+  function setShowAge(show){
+    selectedAccount[0].showAge = show;
+    log('info', "Setting Show Age (" + show + ")to " + selectedAccount[0].UserName)
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    saved_users[selectedAccount[0].UserID] = selectedAccount[0];
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+  }
 
-    function setRelaunchAccount(show) {
-      selectedAccount[0].relaunch = show;
-      log('info', "Setting Relaunch Account (" + show + ") to " + selectedAccount[0].UserName)
-      let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-      saved_users[selectedAccount[0].UserID] = selectedAccount[0];
-      localStorage.setItem("accounts", JSON.stringify(saved_users));
-    }
+  function setHideAccount(show) {
+    selectedAccount[0].hide = show;
+    log('info', "Setting Show Account (" + show + ") to " + selectedAccount[0].UserName)
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    saved_users[selectedAccount[0].UserID] = selectedAccount[0];
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+  }
 
-    function deleteAccount(){
-        log('info', "Deleted " + selectedAccount[0].UserName)
-        let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
-        delete saved_users[selectedAccount[0].UserID];
-        localStorage.setItem("accounts", JSON.stringify(saved_users));
-        $('.sidebar .icon[data-page="home"]').click();
-    }
+  function setRelaunchAccount(show) {
+    selectedAccount[0].relaunch = show;
+    log('info', "Setting Relaunch Account (" + show + ") to " + selectedAccount[0].UserName)
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    saved_users[selectedAccount[0].UserID] = selectedAccount[0];
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+  }
 
-    async function loadRbxAccountDetails(){
-      let details = await noblox.getPlayerInfo({userId: selectedAccount[0].UserID});
-      $(' #accountAge').html(details.age + ' days')
+  function deleteAccount() {
+    log('info', "Deleted " + selectedAccount[0].UserName)
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    delete saved_users[selectedAccount[0].UserID];
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+    $('.sidebar .icon[data-page="home"]').click();
+  }
 
-      let Blocked = await getBlockedUsers();
-      BlockedUsers = Blocked.blockedUsers
-      $(' #blockedUsers').html(Blocked.total)
-    }
+  async function loadRbxAccountDetails() {
+    let details = await noblox.getPlayerInfo({ userId: selectedAccount[0].UserID });
+    $(' #accountAge').html(details.age + ' days')
 
-    loadRbxAccountDetails()
+    /**
+     * Account Age
+     */
+    selectedAccount[0].ageNumber = details.age;
+    log('network', "Updating Account Age (" + selectedAccount[0].UserName + ") to " + details.age)
+    let saved_users = JSON.parse(localStorage.getItem("accounts")) || {};
+    saved_users[selectedAccount[0].UserID] = selectedAccount[0];
+    localStorage.setItem("accounts", JSON.stringify(saved_users));
+
+    let Blocked = await getBlockedUsers();
+    BlockedUsers = Blocked.blockedUsers
+    $(' #blockedUsers').html(Blocked.total)
+  }
+
+  loadRbxAccountDetails()
 
 
 
-    function getBlockedUsers(){
-      
-      return new Promise((resolve, reject)=>{
-        ipcRenderer.send('RobloxRequest', {
-          uid: selectedAccount[0].UserID,
-          cookie: cryptoClient.decrypt(selectedAccount[0].cookie),
-          url: "https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users",
-          method: 'GET',
-          cb: 'BlockedUsersResult'
-        })
+  function getBlockedUsers() {
 
-        ipcRenderer.once('BlockedUsersResult',(_, response)=>{
-          resolve(response)
-        })
+    return new Promise((resolve, reject) => {
+      ipcRenderer.send('RobloxRequest', {
+        uid: selectedAccount[0].UserID,
+        cookie: cryptoClient.decrypt(selectedAccount[0].cookie),
+        url: "https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users",
+        method: 'GET',
+        cb: 'BlockedUsersResult'
       })
+
+      ipcRenderer.once('BlockedUsersResult', (_, response) => {
+        resolve(response)
+      })
+    })
+  }
+
+  async function blockUserByUsername() {
+    let username = $('#blockUsername').val()
+    let prevText = $('#blockUsernameBtn').html()
+    log('info', "Blocking " + username + " with " + selectedAccount[0].UserName)
+    if (username == '') {
+      return
+    }
+    $('#blockUsernameBtn').html('Blocking ' + username)
+    $('#blockUsernameBtn').prop('disabled', true)
+    let destUID = null
+    try {
+      destUID = await noblox.getIdFromUsername(username)
+    } catch (e) {
+      return
     }
 
-    async function blockUserByUsername(){
-      let username = $('#blockUsername').val()
-      let prevText = $('#blockUsernameBtn').html()
-      log('info', "Blocking "+ username +" with " + selectedAccount[0].UserName)
-      if(username == ''){
-        return
-      }
-      $('#blockUsernameBtn').html('Blocking ' + username)
-      $('#blockUsernameBtn').prop('disabled', true)
-      let destUID = null
-      try {
-         destUID = await noblox.getIdFromUsername(username)
-      }catch(e){
-        return
-      }
-      
-      if(!destUID){
+    if (!destUID) {
       $('#blockUsernameBtn').prop('disabled', false)
-        return
-      }
+      return
+    }
 
-      await blockUser(selectedAccount[0], destUID)
-      $('#blockUsernameBtn').html('User ' + username + ' blocked!')
+    await blockUser(selectedAccount[0], destUID)
+    $('#blockUsernameBtn').html('User ' + username + ' blocked!')
+    loadRbxAccountDetails()
+    setTimeout(() => {
+      $('#blockUsernameBtn').prop('disabled', false)
+      $('#blockUsernameBtn').html(prevText)
+    }, 3000);
+  }
+
+  var blocking = false;
+  async function unBlockUsers(btn) {
+
+    if (blocking) {
+      return
+    }
+
+    blocking = true;
+
+    if (!BlockedUsers) { return }
+    let btnText = ''
+    if (btn) {
+      btnText = $(btn).text();
+      $(btn).html(`<p id="blockedUsers"><iconify-icon inline icon="eos-icons:three-dots-loading"></iconify-icon></p>`)
+    }
+
+    for (key in BlockedUsers) {
+      let bUser = BlockedUsers[key];
+      if (btn) {
+        $(btn).text('Unblocking ' + bUser.name)
+        log('info', "Unblocking " + bUser.name + " with " + selectedAccount[0].UserName)
+      }
+      await unblockUser(selectedAccount[0], bUser.userId)
+    }
+
+    if (btn) {
+      $(btn).text('All users unblocked!')
       loadRbxAccountDetails()
       setTimeout(() => {
-      $('#blockUsernameBtn').prop('disabled', false)
-        $('#blockUsernameBtn').html(prevText)
+        $(btn).text(btnText)
+        blocking = false
       }, 3000);
     }
 
-    var blocking = false;
-    async function unBlockUsers(btn){
-
-      if(blocking){
-        return
-      }
-
-      blocking = true;
-
-      if(!BlockedUsers){return}
-      let btnText = ''
-      if(btn){
-        btnText = $(btn).text();
-          $(btn).html(`<p id="blockedUsers"><iconify-icon inline icon="eos-icons:three-dots-loading"></iconify-icon></p>`)
-        }
-
-      for(key in BlockedUsers){
-        let bUser = BlockedUsers[key];
-        if(btn){
-          $(btn).text('Unblocking ' + bUser.name)
-          log('info', "Unblocking "+ bUser.name +" with " + selectedAccount[0].UserName)
-        }
-        await unblockUser(selectedAccount[0], bUser.userId)
-      }
-
-      if(btn){
-        $(btn).text('All users unblocked!')
-        loadRbxAccountDetails()
-        setTimeout(() => {
-          $(btn).text(btnText)
-          blocking = false
-        }, 3000);
-      }
-
-    }
-  </script>
+  }
+</script>
 </div>
