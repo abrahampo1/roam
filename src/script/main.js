@@ -2,8 +2,9 @@ var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
 const fs = require("fs");
-var ua = require('universal-analytics');
-var visitor = ua('UA-170182580-1');
+const os = require("os");
+var ua = require("universal-analytics");
+var visitor = ua("UA-170182580-1", os.userInfo().uid);
 const { DownloaderHelper } = require("node-downloader-helper");
 
 const defaultSettings = {
@@ -42,8 +43,7 @@ function minimize_app() {
 }
 
 function load_page(page) {
-  visitor.pageview("pages/" + page, function (err) {
-  });
+  visitor.pageview("pages/" + page, function (err) {});
   $("#app").load("pages/" + page + ".html");
   $("#app").addClass("fade-in");
   $("#app").on("animationend", () => {
@@ -85,6 +85,7 @@ function copyText(text, icon) {
 
 window.onload = async () => {
   log("info", "Roam Loaded");
+  visitor.event("App", "Loaded").send();
   //First Load Account
   if (
     (!localStorage.getItem("useFirebase") ||
