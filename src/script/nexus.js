@@ -14,7 +14,7 @@ setTimeout(() => {
 }, 5000);
 
 wss.on("connection", (ws, req) => {
-  console.log("Client has been connected");
+  visitor.event("Nexus", "Connected").send();
 
   let urldata = new URL(req.url, "https://roam.com");
 
@@ -82,6 +82,7 @@ wss.on("connection", (ws, req) => {
 });
 
 function executeNexus(code, id) {
+  visitor.event("Nexus", "Executed").send();
   return new Promise(function (resolve, reject) {
     code = "local nid = '" + NexusID + "';" + code;
     if (NexusAccounts.length == 0) {
@@ -121,8 +122,8 @@ function functionParser(command, payload) {
       alert(payload);
       break;
     case "execute":
-      executeNexus(editor.getValue())
-    break;
+      executeNexus(editor.getValue());
+      break;
     case "notify":
       notifier.notify({
         title: "Nexus",
