@@ -2,7 +2,10 @@ const WebSocketServer = require("ws");
 const notifier = require("node-notifier");
 const wss = new WebSocketServer.Server({ port: 5242 });
 var NexusStart = true;
-
+const TelegramBot = require("node-telegram-bot-api");
+const bot = new TelegramBot(localStorage.getItem('telegram-token'), {
+  polling: true,
+});
 let Nexus = {};
 let NexusAccounts = [];
 let NexusSelected = [];
@@ -14,7 +17,7 @@ setTimeout(() => {
 }, 5000);
 
 wss.on("connection", (ws, req) => {
-  logEvent(analytics, 'Nexus Loaded');
+  logEvent(analytics, "Nexus Loaded");
 
   let urldata = new URL(req.url, "https://roam.com");
 
@@ -82,7 +85,7 @@ wss.on("connection", (ws, req) => {
 });
 
 function executeNexus(code, id) {
-  logEvent(analytics, 'Nexus Execution');
+  logEvent(analytics, "Nexus Execution");
   return new Promise(function (resolve, reject) {
     code = "local nid = '" + NexusID + "';" + code;
     if (NexusAccounts.length == 0) {
@@ -147,7 +150,10 @@ function functionParser(command, payload) {
         LaunchAccount();
       }, waitTime);
       break;
-
+    case "maxnotify":
+      bot.sendMessage(localStorage.getItem('telegram-chatid'), "⚠️ ARTIFACT ⚠️");
+      bot.sendMessage(localStorage.getItem('telegram-chatid'), payload);
+      break;
     case "blockUser":
       var uid = payload.uid;
       var block = payload.block;

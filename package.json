@@ -40,6 +40,7 @@
     "noblox.js": "^4.13.1",
     "node-downloader-helper": "^2.1.5",
     "node-notifier": "^10.0.1",
+    "node-telegram-bot-api": "^0.60.0",
     "robloxlauncherapi": "github:abrahampo1/RobloxClientApi",
     "ws": "^8.11.0"
   }

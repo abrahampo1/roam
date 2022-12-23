@@ -823,3 +823,34 @@ button.dark {
 .log p.date {
     color: rgb(182, 182, 182);
 }
+
+.serverList {
+    border-radius: 10px;
+    background-color: var(--secondary);
+    height: 125px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.server {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--primary);
+    margin-bottom: 5px;
+    border-radius: 10px;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.server p {
+    margin: 0
+}
+
+.server .tinyPlay{
+    background: rgb(17, 125, 0);
+    background: linear-gradient(191deg, rgba(17, 125, 0, 1) 0%, rgba(29, 168, 0, 1) 100%);
+    padding: 0px;
+    width: 30px;
+}

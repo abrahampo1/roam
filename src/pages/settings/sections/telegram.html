@@ -1,0 +1,25 @@
+<div class="content">
+    <div class="group flex">
+        <h4>
+            Telegram Bot Token
+            <iconify-icon inline icon="ri:question-line"
+                title="You can get a token by talking to bot father"></iconify-icon>
+        </h4>
+        <input type="text" name="" style="width: 25ch" id="telegramtoken" min="0"
+            onchange='localStorage.setItem("telegram-token", this.value)' />
+    </div>
+    <div class="group flex">
+        <h4>
+            Telegram Chatid
+            <iconify-icon inline icon="ri:question-line"
+                title="You can get you chatid by talking to bots who provides your chatid"></iconify-icon>
+        </h4>
+        <input type="text" name="" style="width: 25ch" id="telegramchatid" min="0"
+            onchange='localStorage.setItem("telegram-chatid", this.value)' />
+    </div>
+</div>
+
+<script>
+    $('#telegramchatid').val(localStorage.getItem('telegramchatid'));
+    $('#telegramtoken').val(localStorage.getItem('telegramtoken'));
+</script>
