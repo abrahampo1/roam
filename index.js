@@ -98,6 +98,11 @@ ipcMain.on("RobloxRequest", async (res, data) => {
   cb.data["uid"] = data.uid;
   ContentWindow.webContents.send(data.cb, cb.data);
 });
+
+ipcMain.on("WebGet", (sender, data) => {
+  
+});
+
 async function checkUpdate() {
   let g = await axios.get(
     "https://api.github.com/repos/abrahampo1/roam/releases/latest"

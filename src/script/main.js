@@ -63,6 +63,13 @@ $(".icon[data-page]").each((i, e) => {
 
 function webGet(url) {
   return new Promise((resolve, reject) => {
+    ipcRenderer.send("RobloxRequest", {
+      uid: account.UserID,
+      cookie: cryptoClient.decrypt(account.cookie),
+      url: `https://accountsettings.roblox.com/v1/users/${userid}/unblock`,
+      method: "GET",
+      cb: "webRequest",
+    });
     $.ajax({
       type: "GET",
       url: url,

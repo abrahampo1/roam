@@ -103,6 +103,11 @@ function LaunchPlayer(cookie, placeID, follow) {
 
 async function blockUser(account, blockUserID) {
   logEvent(analytics, "block_user");
+  let b = await getBlockedUsers();
+  if (b.total == 100) {
+    log("network", "Max blocked users reached, unblocking the first");
+    await unblockUser(account, b.blockedUsers[0].userId);
+  }
   let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
   console.log(`Logged in as ${cuser.UserName} [${cuser.UserID}]`);
   let xcsrf = await noblox.getGeneralToken();
