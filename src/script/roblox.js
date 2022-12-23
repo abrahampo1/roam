@@ -105,7 +105,7 @@ async function blockUser(account, blockUserID) {
   logEvent(analytics, "block_user");
 
   let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
-  let b = await getBlockedUsers();
+  let b = await getBlockedUsers(account);
   if (b.total == 100) {
     log("network", "Max blocked users reached, unblocking the first");
     await unblockUser(account, b.blockedUsers[0].userId);
