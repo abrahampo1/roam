@@ -149,7 +149,7 @@
     saved_users[selectedAccount[0].UserID] = selectedAccount[0];
     localStorage.setItem("accounts", JSON.stringify(saved_users));
 
-    let Blocked = await getBlockedUsers();
+    let Blocked = await getBlockedUsers(selectedAccount[0]);
     BlockedUsers = Blocked.blockedUsers
     $(' #blockedUsers').html(Blocked.total)
   }
@@ -157,23 +157,6 @@
   loadRbxAccountDetails()
 
 
-
-  function getBlockedUsers() {
-
-    return new Promise((resolve, reject) => {
-      ipcRenderer.send('RobloxRequest', {
-        uid: selectedAccount[0].UserID,
-        cookie: cryptoClient.decrypt(selectedAccount[0].cookie),
-        url: "https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users",
-        method: 'GET',
-        cb: 'BlockedUsersResult'
-      })
-
-      ipcRenderer.once('BlockedUsersResult', (_, response) => {
-        resolve(response)
-      })
-    })
-  }
 
   async function blockUserByUsername() {
     let username = $('#blockUsername').val()
