@@ -3,9 +3,11 @@ const notifier = require("node-notifier");
 const wss = new WebSocketServer.Server({ port: 5242 });
 var NexusStart = true;
 const TelegramBot = require("node-telegram-bot-api");
-const bot = new TelegramBot(localStorage.getItem('telegram-token'), {
-  polling: true,
-});
+if (localStorage.getItem("telegram-token")) {
+  const bot = new TelegramBot(localStorage.getItem("telegram-token"), {
+    polling: true,
+  });
+}
 let Nexus = {};
 let NexusAccounts = [];
 let NexusSelected = [];
@@ -151,8 +153,11 @@ function functionParser(command, payload) {
       }, waitTime);
       break;
     case "maxnotify":
-      bot.sendMessage(localStorage.getItem('telegram-chatid'), "⚠️ ARTIFACT ⚠️");
-      bot.sendMessage(localStorage.getItem('telegram-chatid'), payload);
+      bot.sendMessage(
+        localStorage.getItem("telegram-chatid"),
+        "⚠️ ARTIFACT ⚠️"
+      );
+      bot.sendMessage(localStorage.getItem("telegram-chatid"), payload);
       break;
     case "blockUser":
       var uid = payload.uid;

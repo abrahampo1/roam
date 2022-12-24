@@ -35,7 +35,7 @@
     </div>
     <input type="text" id="placeId" placeholder="Place ID"
       onchange="LoadPlaceDetails(this.value);localStorage.setItem('PlaceID', this.value);  " value="" />
-    <div class="serverList">
+    <div class="serverList" hidden>
       <div class="server">
         <p>12/24</p>
         <p>12 ms</p>
@@ -98,10 +98,10 @@
         data.UserName = "";
       }
 
-      if (data.showAge == false) {
-        data.ageNumber = "";
-      } else {
+      if (data.showAge == true) {
         data.ageNumber = "Age:" + data.ageNumber;
+      } else {
+        data.ageNumber = "";
       }
 
       if (!query && data.hide) {

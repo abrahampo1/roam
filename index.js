@@ -6,7 +6,6 @@ const os = require("os");
 const fs = require("fs");
 const path = require("path");
 const { DownloaderHelper } = require("node-downloader-helper");
-var http = require("http");
 
 let ContentWindow;
 
@@ -79,6 +78,11 @@ ipcMain.on("LaunchGame", (sender, data) => {
     });
 });
 
+ipcMain.on("WebGet", async (sender, data) => {
+  let g = await axios.get(data.url)
+  ContentWindow.webContents.send(data.cb, g.data);
+});
+
 const formUrlEncoded = (x) =>
   Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, "");
 
@@ -99,9 +103,6 @@ ipcMain.on("RobloxRequest", async (res, data) => {
   ContentWindow.webContents.send(data.cb, cb.data);
 });
 
-ipcMain.on("WebGet", (sender, data) => {
-  
-});
 
 async function checkUpdate() {
   let g = await axios.get(

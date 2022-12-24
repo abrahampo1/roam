@@ -61,22 +61,19 @@ $(".icon[data-page]").each((i, e) => {
   });
 });
 
+let webRequestUID = 0;
 function webGet(url) {
   return new Promise((resolve, reject) => {
-    // ipcRenderer.send("RobloxRequest", {
-    //   uid: account.UserID,
-    //   cookie: cryptoClient.decrypt(account.cookie),
-    //   url: `https://accountsettings.roblox.com/v1/users/${userid}/unblock`,
-    //   method: "GET",
-    //   cb: "webRequest",
-    // });
-    $.ajax({
-      type: "GET",
+    console.log(url);
+    ipcRenderer.send("WebGet", {
       url: url,
-      success: function (response) {
-        resolve(response);
-      },
+      cb: "wr" + webRequestUID,
     });
+
+    ipcRenderer.once("wr" + webRequestUID, (_, data) => {
+      resolve(data);
+    });
+    webRequestUID++;
   });
 }
 
@@ -90,7 +87,7 @@ function copyText(text, icon) {
 
 window.onload = async () => {
   log("info", "Roam Loaded");
-  logEvent(analytics, 'App Loaded');
+  logEvent(analytics, "App Loaded");
   //First Load Account
   if (
     (!localStorage.getItem("useFirebase") ||
