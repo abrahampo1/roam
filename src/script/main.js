@@ -2,6 +2,7 @@ var { ipcRenderer } = require("electron");
 window.$ = window.jQuery = require("jquery");
 var exec = require("child_process").exec;
 const fs = require("fs");
+const os = require("os");
 const { DownloaderHelper } = require("node-downloader-helper");
 
 const defaultSettings = {
@@ -40,6 +41,7 @@ function minimize_app() {
 }
 
 function load_page(page) {
+  logEvent(analytics, "page_load", { name: page });
   $("#app").load("pages/" + page + ".html");
   $("#app").addClass("fade-in");
   $("#app").on("animationend", () => {
@@ -59,15 +61,19 @@ $(".icon[data-page]").each((i, e) => {
   });
 });
 
+let webRequestUID = 0;
 function webGet(url) {
   return new Promise((resolve, reject) => {
-    $.ajax({
-      type: "GET",
+    console.log(url);
+    ipcRenderer.send("WebGet", {
       url: url,
-      success: function (response) {
-        resolve(response);
-      },
+      cb: "wr" + webRequestUID,
     });
+
+    ipcRenderer.once("wr" + webRequestUID, (_, data) => {
+      resolve(data);
+    });
+    webRequestUID++;
   });
 }
 
@@ -81,6 +87,7 @@ function copyText(text, icon) {
 
 window.onload = async () => {
   log("info", "Roam Loaded");
+  logEvent(analytics, "App Loaded");
   //First Load Account
   if (
     (!localStorage.getItem("useFirebase") ||

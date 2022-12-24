@@ -9,19 +9,12 @@
           <p>Add or Import an account by clicking one of this buttons</p>
         </div>
       </div>
-      <button
-        onclick="$('#modalHolder').load('modals/RAM/import.html'); $('#modalHolder').fadeIn('fast')"
-      >
+      <button onclick="$('#modalHolder').load('modals/RAM/import.html'); $('#modalHolder').fadeIn('fast')">
         Import Accounts
       </button>
     </div>
   </div>
-  <input
-    type="text"
-    style="margin: 0; margin-bottom: 10px"
-    placeholder="Search"
-    oninput="LoadAccounts(this.value)"
-  />
+  <input type="text" style="margin: 0; margin-bottom: 10px" placeholder="Search" oninput="LoadAccounts(this.value)" />
   <div id="userList"></div>
 </div>
 
@@ -30,49 +23,39 @@
     <p>Select an account first</p>
   </div>
   <div class="block" id="join" style="display: none">
-    <iconify-icon
-      style="font-size: 30px"
-      icon="eos-icons:three-dots-loading"
-    ></iconify-icon>
+    <iconify-icon style="font-size: 30px" icon="eos-icons:three-dots-loading"></iconify-icon>
   </div>
   <div style="width: 100%">
     <div class="gameInfo">
-      <img
-        id="gameThumbnail"
-        src="https://tr.rbxcdn.com/5f975c8ae72a7cfe193eea7799b2a5cb/150/150/Image/Png"
-        alt=""
-      />
+      <img id="gameThumbnail" src="https://tr.rbxcdn.com/5f975c8ae72a7cfe193eea7799b2a5cb/150/150/Image/Png" alt="" />
       <div>
         <p><strong id="gameTitle">Rogue Lineage</strong></p>
         <p><span id="gamePlayers">XXX</span> Players</p>
       </div>
     </div>
-    <input
-      type="text"
-      id="placeId"
-      placeholder="Place ID"
-      onchange="LoadPlaceDetails(this.value);localStorage.setItem('PlaceID', this.value);  "
-      value=""
-    />
+    <input type="text" id="placeId" placeholder="Place ID"
+      onchange="LoadPlaceDetails(this.value);localStorage.setItem('PlaceID', this.value);  " value="" />
+    <div class="serverList" hidden>
+      <div class="server">
+        <p>12/24</p>
+        <p>12 ms</p>
+        <button class="tinyPlay">
+          <iconify-icon inline icon="ic:round-play-arrow"></iconify-icon>
+        </button>
+      </div>
+    </div>
   </div>
 
   <div style="width: 100%">
     <div class="flex" style="justify-content: space-between">
       <h4 style="margin: 0">
         Auto Relaunch
-        <iconify-icon
-          inline
-          icon="ri:question-line"
-          title="Close and open roblox with the last account launched (time can be set on settings)."
-        ></iconify-icon>
+        <iconify-icon inline icon="ri:question-line"
+          title="Close and open roblox with the last account launched (time can be set on settings)."></iconify-icon>
       </h4>
       <div class="checkbox-wrapper-2">
-        <input
-          type="checkbox"
-          id="autorelaunchAccount"
-          onchange="localStorage.setItem('autorelaunch', this.checked)"
-          class="sc-gJwTLC ikxBAC"
-        />
+        <input type="checkbox" id="autorelaunchAccount" onchange="localStorage.setItem('autorelaunch', this.checked)"
+          class="sc-gJwTLC ikxBAC" />
       </div>
     </div>
     <input type="text" id="followPlayer" placeholder="Follow Player" />
@@ -115,6 +98,12 @@
         data.UserName = "";
       }
 
+      if (data.showAge == true) {
+        data.ageNumber = "Age:" + data.ageNumber;
+      } else {
+        data.ageNumber = "";
+      }
+
       if (!query && data.hide) {
         return;
       }
@@ -126,45 +115,44 @@
       <div class="flex">
         <p class="primary">${data.UserName}</p>
         <p class="secondary">${data.Alias || ""}</p>
+        <p class="secondary">${data.ageNumber}</p>
       </div>
       <div class="actions">
         <iconify-icon icon="material-symbols:mail-lock-outline" style="margin-right: 5px; display: none" title="This Account is mail verified" class="mail"></iconify-icon>
         <iconify-icon icon="fluent:connected-16-filled" title="Nexus Connected on this Account" style="margin-right: 5px; display: none" class="nexus"></iconify-icon>
         <iconify-icon icon="material-symbols:cloud-done-outline-rounded" title="This Account have a cloud backup" style="margin-right: 5px; display: none" class="cloud"></iconify-icon>
-        ${
-          data.hide
+        ${data.hide
             ? '<iconify-icon icon="bxs:hide" style="margin-right: 5px;" title="This Account is hidden"></iconify-icon>'
             : ""
-        }
-        ${
-          data.relaunch
+          }
+        ${data.relaunch
             ? '<iconify-icon icon="material-symbols:rocket-launch" style="color:red; margin-right: 5px;" title="This Account have relaunch activated"></iconify-icon>'
             : ""
-        }
+          }
         
         <iconify-icon icon="material-symbols:settings" title="Account Settings" onclick="load_page('accountSettings')"></iconify-icon>
       </div>
     </div>
         
         `).on("click", (e) => {
-          if (!e.shiftKey) {
-            console.log(e);
-            selectAccount(data.UserID, e.currentTarget);
-          } else {
-            if (selectedAccount.indexOf((e) => e.UserID == data.UserID) > -1) {
-              selectedAccount = selectedAccount.slice(
-                selectedAccount.indexOf((e) => e.UserID == data.UserID),
-                1
-              );
-
-              $(e).removeClass("selected");
+            if (!e.shiftKey) {
+              console.log(e);
+              selectAccount(data.UserID, e.currentTarget);
             } else {
-              selectedAccount.push(data);
-              $(e).addClass("selected");
+              if (selectedAccount.indexOf((e) => e.UserID == data.UserID) > -1) {
+                selectedAccount = selectedAccount.slice(
+                  selectedAccount.indexOf((e) => e.UserID == data.UserID),
+                  1
+                );
+
+                $(e).removeClass("selected");
+              } else {
+                selectedAccount.push(data);
+                $(e).addClass("selected");
+              }
+              LoadPlaceDetails($("#placeId").val());
             }
-            LoadPlaceDetails($("#placeId").val());
-          }
-        })
+          })
       );
     });
     checkRobloxVerified();

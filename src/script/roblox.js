@@ -8,6 +8,8 @@ function AddRobloxAccount() {
   return new Promise((resolve, reject) => {
     ipcRenderer.send("AddRobloxAccount");
     ipcRenderer.on("RobloxAccountCookie", async (sender, data) => {
+      logEvent(analytics, "account_added");
+
       addRobloxAccountWithCookie(data);
     });
   });
@@ -69,6 +71,8 @@ async function LaunchAccount() {
     let a = selectedAccount[key];
     $(".game #join").fadeIn("fast");
     log("launch", a.UserName + " has been launched to " + selectedPlaceID);
+    logEvent(analytics, "game_launch", { placeId: selectedPlaceID });
+
     await LaunchPlayer(
       cryptoClient.decrypt(a.cookie),
       selectedPlaceID,
@@ -98,7 +102,14 @@ function LaunchPlayer(cookie, placeID, follow) {
 }
 
 async function blockUser(account, blockUserID) {
+  logEvent(analytics, "block_user");
+
   let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
+  let b = await getBlockedUsers(account);
+  if (b.total == 100) {
+    log("network", "Max blocked users reached, unblocking the first");
+    await unblockUser(account, b.blockedUsers[0].userId);
+  }
   console.log(`Logged in as ${cuser.UserName} [${cuser.UserID}]`);
   let xcsrf = await noblox.getGeneralToken();
   ipcRenderer.send("BlockRobloxUser", {
@@ -108,7 +119,24 @@ async function blockUser(account, blockUserID) {
   });
 }
 
+function getBlockedUsers(account) {
+  return new Promise((resolve, reject) => {
+    ipcRenderer.send("RobloxRequest", {
+      uid: account.UserID,
+      cookie: cryptoClient.decrypt(account.cookie),
+      url: "https://accountsettings.roblox.com/v1/users/get-detailed-blocked-users",
+      method: "GET",
+      cb: "BlockedUsersResult",
+    });
+
+    ipcRenderer.once("BlockedUsersResult", (_, response) => {
+      resolve(response);
+    });
+  });
+}
+
 function unblockUser(account, userid) {
+  logEvent(analytics, "unblock_user");
   return new Promise((resolve, reject) => {
     ipcRenderer.send("RobloxRequest", {
       uid: account.UserID,

@@ -6,6 +6,7 @@ const {
   collection,
   getDoc,
 } = require("firebase/firestore");
+const { getAnalytics, logEvent, setUserId  } = require("firebase/analytics");
 const {
   getAuth,
   createUserWithEmailAndPassword,
@@ -26,7 +27,7 @@ const firebaseConfig = {
   measurementId: "G-XKGLCSBQ1H",
 };
 const app = initializeApp(firebaseConfig);
-
+const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 const auth = getAuth(app);
@@ -39,11 +40,13 @@ function firebaseLogin(email, password) {
     setPersistence(auth, browserLocalPersistence).then(() => {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (uc) => {
+          setUserId(analytics,uc.user.uid);
+          logEvent(analytics, "logged_in");
           localStorage.setItem("authPass", password);
           localStorage.setItem("authMail", email);
           $("#modalHolder").html("");
           localStorage.setItem("useFirebase", true);
-
+          logEvent(analytics, "user_logged_in");
           let cloudBackup = await getCloudAccounts();
           console.log(cloudBackup);
           if (cloudBackup.rbxAccounts && !localStorage.getItem("accounts")) {
