@@ -7,6 +7,8 @@ const fs = require("fs");
 const path = require("path");
 const { DownloaderHelper } = require("node-downloader-helper");
 
+const platform = os.platform()
+
 let ContentWindow;
 
 function createWindow() {
@@ -25,11 +27,15 @@ function createWindow() {
       contextIsolation: false,
     },
   });
-  mainWindow.setIcon(__dirname + "/res/logo.ico");
+  if(platform == 'win32'){
+    mainWindow.setIcon(__dirname + "/res/logo.ico");
+  }
   mainWindow.loadURL("http://localhost:9000");
 
   ipcMain.on("close", () => {
-    exec(`taskkill /F /IM multiroblox.exe`);
+    if(platform == 'win32'){
+      exec(`taskkill /F /IM multiroblox.exe`);
+    }
     mainWindow.close();
   });
   ipcMain.on("minimize", () => {
@@ -46,7 +52,9 @@ ipcMain.on("AddRobloxAccount", () => {
   });
 
   accountWindow.loadURL("https://www.roblox.com/login");
-  accountWindow.setIcon(__dirname + "/res/logo.ico");
+  if(platform == 'win32'){
+    mainWindow.setIcon(__dirname + "/res/logo.ico");
+  }
 
   accountWindow.webContents.session
     .clearStorageData({ storages: ["cookies"] })
@@ -112,9 +120,9 @@ async function checkUpdate() {
 
   if (app.getVersion() < g.data.tag_name) {
     console.log("App needs an update");
-    console.log("Searching for my platform " + os.platform());
+    console.log("Searching for my platform " + platform);
     let myPackage = g.data.assets.find(
-      (a) => a.name == app.getName() + ".Setup." + os.platform() + ".exe"
+      (a) => a.name == app.getName() + ".Setup." + platform + ".exe"
     );
     fs.rmSync(process.env.APPDATA + "/roam/" + myPackage.name, {
       recursive: true,
@@ -152,8 +160,10 @@ async function multiRoblox() {
   exec(process.env.APPDATA + "/roam/multiroblox.exe");
 }
 
-multiRoblox();
+if(platform == 'win32'){
+  multiRoblox();
 
+}
 //Tricky way to do that btw
 ipcMain.on("getVersion", () => {
   ContentWindow.webContents.send("currentVersion", app.getVersion());
@@ -165,30 +175,43 @@ const defaultSettings = {
 };
 
 function ReadGlobalSettings() {
-  if (!fs.existsSync(process.env.APPDATA + "/roam/settings.json")) {
+  if (!fs.existsSync((process.env.APPDATA || (platform == 'darwin')? process.env.HOME : process.env.HOME) + "/roam/settings.json")) {
     fs.writeFileSync(
-      process.env.APPDATA + "/roam/settings.json",
+      (process.env.APPDATA || (platform == 'darwin')? process.env.HOME : process.env.HOME) + "/roam/settings.json",
       JSON.stringify(defaultSettings)
     );
     return defaultSettings;
   } else {
     return JSON.parse(
-      fs.readFileSync(process.env.APPDATA + "/roam/settings.json")
+      fs.readFileSync( (process.env.APPDATA || (platform == 'darwin')? process.env.HOME : process.env.HOME) + "/roam/settings.json")
     );
   }
 }
 
+
 function WriteGlobalSettings(setting, value) {
   let sett = ReadGlobalSettings();
   sett[setting] = value;
-  fs.writeFileSync(
+  if(platform == 'win32'){
+    fs.writeFileSync(
     process.env.APPDATA + "/roam/settings.json",
     JSON.stringify(sett)
   );
+  }
+
+  if(platform == 'darwin'){
+    fs.writeFileSync(
+    process.env.HOME + "/roam/settings.json",
+    JSON.stringify(sett)
+  );
+  }
 }
 
 if (ReadGlobalSettings()["autoupdate"]) {
-  checkUpdate();
+  if(platform == 'win32'){
+    checkUpdate();
+  }
+  
 }
 
 const express = require("express");

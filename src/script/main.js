@@ -41,7 +41,10 @@ function minimize_app() {
 }
 
 function load_page(page) {
-  logEvent(analytics, "page_load", { name: page });
+  logEvent(analytics, "screen_view", {
+    firebase_screen: page,
+    firebase_screen_class: "click",
+  });
   $("#app").load("pages/" + page + ".html");
   $("#app").addClass("fade-in");
   $("#app").on("animationend", () => {

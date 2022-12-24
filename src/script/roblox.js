@@ -102,7 +102,7 @@ function LaunchPlayer(cookie, placeID, follow) {
 }
 
 async function blockUser(account, blockUserID) {
-  logEvent(analytics, "block_user");
+  logEvent(analytics, "Block User");
 
   let cuser = await noblox.setCookie(cryptoClient.decrypt(account.cookie));
   let b = await getBlockedUsers(account);
@@ -136,7 +136,7 @@ function getBlockedUsers(account) {
 }
 
 function unblockUser(account, userid) {
-  logEvent(analytics, "unblock_user");
+  logEvent(analytics, "Unblock User");
   return new Promise((resolve, reject) => {
     ipcRenderer.send("RobloxRequest", {
       uid: account.UserID,
